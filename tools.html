@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Youth Hub - Tools</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        header {
+            text-align: center;
+            padding: 35px 20px 20px;
+        }
+
+        header h1 {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+            font-size: 17px;
+        }
+
+        .back {
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #222;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .search {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto 30px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .tools {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .tool {
+            background: white;
+            border: none;
+            border-radius: 18px;
+            padding: 25px 10px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+            transition: 0.2s;
+        }
+
+        .tool:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .tool h3 {
+            margin-bottom: 6px;
+        }
+
+        .tool p {
+            font-size: 13px;
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+
+            .tools {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    
+
+    <a class="back" href="../index.html">
+        ← Back to Home
+    </a>
+
+    <header>
+
+        <h1>🛠️ Tools Hub</h1>
+
+        <p>
+            Useful tools for students and youth
+        </p>
+
+    </header>
+
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="toolSearch"
+            placeholder="🔍 Search tools..."
+            onkeyup="searchTools()"
+        >
+
+    </div>
+
+
+    <section class="tools">
+
+        <button class="tool" onclick="openTool('calculator.html')">
+            <div class="icon">🧮</div>
+            <h3>Calculator</h3>
+            <p>Basic calculator</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('percentage.html')">
+            <div class="icon">📊</div>
+            <h3>Percentage</h3>
+            <p>Calculate percentages</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('si.html')">
+            <div class="icon">💰</div>
+            <h3>Simple Interest</h3>
+            <p>Calculate SI</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('ci.html')">
+            <div class="icon">💵</div>
+            <h3>Compound Interest</h3>
+            <p>Calculate CI</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('age.html')">
+            <div class="icon">📅</div>
+            <h3>Age Calculator</h3>
+            <p>Calculate your exact age</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('converter.html')">
+            <div class="icon">🔄</div>
+            <h3>Unit Converter</h3>
+            <p>Convert different units</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('cgpa.html')">
+            <div class="icon">🎯</div>
+            <h3>CGPA Calculator</h3>
+            <p>Calculate your CGPA</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('stopwatch.html')">
+            <div class="icon">⏱️</div>
+            <h3>Stopwatch</h3>
+            <p>Track time</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('timer.html')">
+            <div class="icon">⏰</div>
+            <h3>Timer</h3>
+            <p>Set a countdown</p>
+        </button>
+
+
+        <button class="tool" onclick="openTool('number.html')">
+            <div class="icon">🔢</div>
+            <h3>Number Generator</h3>
+            <p>Generate random numbers</p>
+        </button>
+
+    </section>
+
+
+    <script>
+
+        function openTool(page) {
+
+            window.location.href = page;
+
+        }
+
+
+        function searchTools() {
+
+            let input =
+                document
+                .getElementById("toolSearch")
+                .value
+                .toLowerCase();
+
+            let tools =
+                document.querySelectorAll(".tool");
+
+
+            tools.forEach(function(tool) {
+
+                let text =
+                    tool.innerText.toLowerCase();
+
+                if (text.includes(input)) {
+
+                    tool.style.display = "";
+
+                } else {
+
+                    tool.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

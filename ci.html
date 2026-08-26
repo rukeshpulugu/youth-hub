@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Youth Hub - Compound Interest</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .formula {
+            background: #f1f3f6;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .box {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f1f3f6;
+            border-radius: 12px;
+            line-height: 1.8;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <a class="back" href="tools.html">
+        ← Tools
+    </a>
+
+
+    <div class="card">
+
+        <h1>💵 Compound Interest</h1>
+
+
+        <div class="formula">
+
+            <b>
+                A = P(1 + R/100)ⁿ
+            </b>
+
+            <br>
+
+            <b>
+                CI = A − P
+            </b>
+
+        </div>
+
+
+        <div class="box">
+
+            <label>
+                Principal (P)
+            </label>
+
+            <input
+                type="number"
+                id="principal"
+                placeholder="Example: 10000">
+
+        </div>
+
+
+        <div class="box">
+
+            <label>
+                Rate (R %)
+            </label>
+
+            <input
+                type="number"
+                id="rate"
+                placeholder="Example: 10">
+
+        </div>
+
+
+        <div class="box">
+
+            <label>
+                Time (Years)
+            </label>
+
+            <input
+                type="number"
+                id="time"
+                placeholder="Example: 2">
+
+        </div>
+
+
+        <div class="box">
+
+            <label>
+                Compounding
+            </label>
+
+            <select id="frequency">
+
+                <option value="1">
+                    Annually
+                </option>
+
+                <option value="2">
+                    Half-Yearly
+                </option>
+
+                <option value="4">
+                    Quarterly
+                </option>
+
+                <option value="12">
+                    Monthly
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button onclick="calculateCI()">
+
+            Calculate CI
+
+        </button>
+
+
+        <div
+            class="result"
+            id="result">
+
+            Enter values to calculate.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function calculateCI() {
+
+    let P =
+        Number(
+            document.getElementById("principal").value
+        );
+
+    let R =
+        Number(
+            document.getElementById("rate").value
+        );
+
+    let T =
+        Number(
+            document.getElementById("time").value
+        );
+
+    let n =
+        Number(
+            document.getElementById("frequency").value
+        );
+
+
+    if (P <= 0 || R < 0 || T <= 0) {
+
+        document.getElementById("result").innerHTML =
+            "⚠️ Please enter valid values.";
+
+        return;
+
+    }
+
+
+    let amount =
+        P *
+        Math.pow(
+            1 + R / (100 * n),
+            n * T
+        );
+
+
+    let CI =
+        amount - P;
+
+
+    document.getElementById("result").innerHTML =
+
+        `<b>Amount Formula:</b>
+
+        <br>
+        A = P(1 + R/100)ⁿ
+
+        <br><br>
+
+        <b>Compound Interest:</b>
+
+        <br>
+        ₹${CI.toFixed(2)}
+
+        <br><br>
+
+        <b>Total Amount:</b>
+
+        <br>
+        ₹${amount.toFixed(2)}`;
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - English Practice</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.back {
+    text-decoration: none;
+    color: #222;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: white;
+    font-size: 15px;
+}
+
+.tab.active {
+    background: #222;
+    color: white;
+}
+
+.panel {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+
+.question {
+    font-size: 21px;
+    font-weight: bold;
+    margin: 20px 0;
+    line-height: 1.5;
+}
+
+.option {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #f1f3f6;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.option:hover {
+    background: #e5e7eb;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.word {
+    font-size: 35px;
+    font-weight: bold;
+    margin: 25px 0;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 17px;
+}
+
+button.action {
+    border: none;
+    padding: 13px 20px;
+    margin-top: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+@media(max-width:600px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .tabs {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+    <h1>🗣️ English Practice</h1>
+
+    <a class="back" href="skills.html">
+        ← Skills
+    </a>
+</div>
+
+<div class="tabs">
+
+    <button class="tab active"
+            onclick="showTab('grammar', this)">
+        📚 Grammar
+    </button>
+
+    <button class="tab"
+            onclick="showTab('vocabulary', this)">
+        🔤 Vocabulary
+    </button>
+
+    <button class="tab"
+            onclick="showTab('sentence', this)">
+        ✍️ Sentence
+    </button>
+
+</div>
+
+
+<div class="panel" id="grammarPanel">
+
+    <p id="grammarProgress">Question 1/10</p>
+
+    <div class="question"
+         id="grammarQuestion">
+    </div>
+
+    <div id="grammarOptions"></div>
+
+    <div class="result"
+         id="grammarResult">
+    </div>
+
+</div>
+
+
+<div class="panel"
+     id="vocabularyPanel"
+     style="display:none;">
+
+    <p>Choose the correct meaning:</p>
+
+    <div class="word"
+         id="word">
+    </div>
+
+    <div id="wordOptions"></div>
+
+    <div class="result"
+         id="wordResult">
+    </div>
+
+</div>
+
+
+<div class="panel"
+     id="sentencePanel"
+     style="display:none;">
+
+    <h2>✍️ Sentence Builder</h2>
+
+    <br>
+
+    <p>
+        Rearrange these words mentally and
+        type the correct sentence.
+    </p>
+
+    <div class="word"
+         id="sentenceWords">
+    </div>
+
+    <input
+        id="sentenceInput"
+        placeholder="Type the correct sentence">
+
+    <button
+        class="action"
+        onclick="checkSentence()">
+        Check Answer
+    </button>
+
+    <div class="result"
+         id="sentenceResult">
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const grammarQuestions = [
+
+{
+    q: "She ___ to college every day.",
+    options: ["go", "goes", "going", "gone"],
+    answer: 1
+},
+
+{
+    q: "They ___ playing cricket.",
+    options: ["is", "am", "are", "be"],
+    answer: 2
+},
+
+{
+    q: "I have ___ my homework.",
+    options: ["complete", "completed", "completing", "completes"],
+    answer: 1
+},
+
+{
+    q: "He is ___ honest person.",
+    options: ["a", "an", "the", "no article"],
+    answer: 1
+},
+
+{
+    q: "We ___ visit Chennai tomorrow.",
+    options: ["will", "was", "were", "has"],
+    answer: 0
+},
+
+{
+    q: "Choose the correct sentence.",
+    options: [
+        "She don't like tea.",
+        "She doesn't like tea.",
+        "She doesn't likes tea.",
+        "She not like tea."
+    ],
+    answer: 1
+},
+
+{
+    q: "The opposite of 'early' is:",
+    options: ["fast", "late", "quick", "soon"],
+    answer: 1
+},
+
+{
+    q: "He ___ finished the work.",
+    options: ["have", "has", "having", "had been"],
+    answer: 1
+},
+
+{
+    q: "I am interested ___ programming.",
+    options: ["on", "at", "in", "for"],
+    answer: 2
+},
+
+{
+    q: "Which word is a noun?",
+    options: ["quickly", "beautiful", "student", "run"],
+    answer: 2
+}
+
+];
+
+let grammarIndex = 0;
+let grammarScore = 0;
+
+function loadGrammar() {
+
+    const q = grammarQuestions[grammarIndex];
+
+    document.getElementById("grammarProgress")
+        .innerText =
+        `Question ${grammarIndex + 1}/10`;
+
+    document.getElementById("grammarQuestion")
+        .innerText = q.q;
+
+    document.getElementById("grammarResult")
+        .innerText = "";
+
+    const box =
+        document.getElementById("grammarOptions");
+
+    box.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "option";
+
+        button.innerText = option;
+
+        button.onclick = () =>
+            answerGrammar(index);
+
+        box.appendChild(button);
+
+    });
+
+}
+
+function answerGrammar(index) {
+
+    const q = grammarQuestions[grammarIndex];
+
+    const result =
+        document.getElementById("grammarResult");
+
+    if (index === q.answer) {
+
+        grammarScore++;
+
+        result.innerText = "✅ Correct!";
+
+    } else {
+
+        result.innerText =
+            "❌ Correct answer: " +
+            q.options[q.answer];
+
+    }
+
+    setTimeout(() => {
+
+        grammarIndex++;
+
+        if (grammarIndex >= grammarQuestions.length) {
+
+            result.innerText =
+                `🎉 Score: ${grammarScore}/10`;
+
+            grammarIndex = 0;
+            grammarScore = 0;
+
+            setTimeout(loadGrammar, 1500);
+
+        } else {
+
+            loadGrammar();
+
+        }
+
+    }, 900);
+
+}
+
+
+const vocabulary = [
+
+    {
+        word: "Brave",
+        options: ["Afraid", "Courageous", "Angry", "Quiet"],
+        answer: 1
+    },
+
+    {
+        word: "Rapid",
+        options: ["Slow", "Fast", "Weak", "Small"],
+        answer: 1
+    },
+
+    {
+        word: "Ancient",
+        options: ["Modern", "Old", "Future", "New"],
+        answer: 1
+    },
+
+    {
+        word: "Accurate",
+        options: ["Correct", "Wrong", "Difficult", "Large"],
+        answer: 0
+    },
+
+    {
+        word: "Assist",
+        options: ["Help", "Stop", "Hide", "Break"],
+        answer: 0
+    }
+
+];
+
+let vocabularyIndex = 0;
+
+function loadVocabulary() {
+
+    const item =
+        vocabulary[vocabularyIndex];
+
+    document.getElementById("word")
+        .innerText = item.word;
+
+    const box =
+        document.getElementById("wordOptions");
+
+    box.innerHTML = "";
+
+    document.getElementById("wordResult")
+        .innerText = "";
+
+    item.options.forEach((option, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "option";
+
+        button.innerText = option;
+
+        button.onclick = () =>
+            answerVocabulary(index);
+
+        box.appendChild(button);
+
+    });
+
+}
+
+function answerVocabulary(index) {
+
+    const item =
+        vocabulary[vocabularyIndex];
+
+    const result =
+        document.getElementById("wordResult");
+
+    if (index === item.answer) {
+
+        result.innerText = "✅ Correct!";
+
+    } else {
+
+        result.innerText =
+            "❌ Correct answer: " +
+            item.options[item.answer];
+
+    }
+
+    setTimeout(() => {
+
+        vocabularyIndex++;
+
+        if (vocabularyIndex >= vocabulary.length) {
+
+            vocabularyIndex = 0;
+
+        }
+
+        loadVocabulary();
+
+    }, 900);
+
+}
+
+
+const sentenceData = [
+
+    {
+        words: "every / I / day / study",
+        answer: "I study every day"
+    },
+
+    {
+        words: "is / programming / interesting",
+        answer: "Programming is interesting"
+    },
+
+    {
+        words: "books / reading / enjoy / I",
+        answer: "I enjoy reading books"
+    },
+
+    {
+        words: "students / learning / are",
+        answer: "Students are learning"
+    }
+
+];
+
+let sentenceIndex = 0;
+
+function loadSentence() {
+
+    document.getElementById("sentenceWords")
+        .innerText =
+        sentenceData[sentenceIndex].words;
+
+    document.getElementById("sentenceInput")
+        .value = "";
+
+    document.getElementById("sentenceResult")
+        .innerText = "";
+
+}
+
+function checkSentence() {
+
+    const input =
+        document.getElementById("sentenceInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const correct =
+        sentenceData[sentenceIndex]
+        .answer
+        .toLowerCase();
+
+    if (input === correct) {
+
+        document.getElementById("sentenceResult")
+            .innerText =
+            "✅ Perfect sentence!";
+
+    } else {
+
+        document.getElementById("sentenceResult")
+            .innerText =
+            "❌ Correct: " +
+            sentenceData[sentenceIndex].answer;
+
+    }
+
+    setTimeout(() => {
+
+        sentenceIndex++;
+
+        if (sentenceIndex >= sentenceData.length) {
+            sentenceIndex = 0;
+        }
+
+        loadSentence();
+
+    }, 1300);
+
+}
+
+
+function showTab(tab, button) {
+
+    document.querySelectorAll(".tab")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    document.getElementById("grammarPanel")
+        .style.display =
+        tab === "grammar" ? "block" : "none";
+
+    document.getElementById("vocabularyPanel")
+        .style.display =
+        tab === "vocabulary" ? "block" : "none";
+
+    document.getElementById("sentencePanel")
+        .style.display =
+        tab === "sentence" ? "block" : "none";
+
+}
+
+
+loadGrammar();
+loadVocabulary();
+loadSentence();
+
+</script>
+
+</body>
+</html>

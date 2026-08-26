@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Reaction Test</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+.back {
+    text-decoration: none;
+    color: #222;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.label {
+    color: #777;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.game-area {
+    height: 400px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.game-area.waiting {
+    background: #222;
+    color: white;
+}
+
+.game-area.ready {
+    background: #eee;
+    color: #222;
+}
+
+.game-area h2 {
+    font-size: 32px;
+}
+
+.game-area p {
+    margin-top: 10px;
+    color: #777;
+}
+
+.result {
+    display: none;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.result-number {
+    font-size: 45px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+button {
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+@media(max-width:600px) {
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .info {
+        grid-template-columns: 1fr;
+    }
+
+    .game-area {
+        height: 350px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+    <h1>⚡ Reaction Test</h1>
+
+    <a class="back" href="games.html">
+        ← Games
+    </a>
+
+</div>
+
+
+<div class="info">
+
+    <div class="stat">
+
+        <div class="number" id="last">
+            -
+        </div>
+
+        <div class="label">
+            Last Reaction
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="number" id="best">
+            -
+        </div>
+
+        <div class="label">
+            Best Reaction
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="number" id="attempts">
+            0
+        </div>
+
+        <div class="label">
+            Attempts
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="game-area"
+    id="gameArea"
+    onclick="handleClick()">
+
+    <div>
+
+        <h2>
+            ⚡ Click to Start
+        </h2>
+
+        <p>
+            Wait for the signal...
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="result" id="result">
+
+    <h2>
+        🎯 Your Reaction
+    </h2>
+
+    <div
+        class="result-number"
+        id="resultTime">
+    </div>
+
+    <p id="resultMessage"></p>
+
+    <br>
+
+    <button onclick="resetGame()">
+        🔄 Try Again
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+let state = "start";
+
+let startTime = 0;
+
+let timeout = null;
+
+let attempts = 0;
+
+let best = null;
+
+
+const area =
+    document.getElementById("gameArea");
+
+
+function handleClick() {
+
+    if (state === "start") {
+
+        startWaiting();
+
+    }
+
+    else if (state === "waiting") {
+
+        falseStart();
+
+    }
+
+    else if (state === "ready") {
+
+        finishReaction();
+
+    }
+
+}
+
+
+function startWaiting() {
+
+    state = "waiting";
+
+    area.className =
+        "game-area waiting";
+
+    area.innerHTML = `
+
+        <div>
+
+            <h2>
+                ⏳ Wait...
+            </h2>
+
+            <p>
+                Click only when it changes!
+            </p>
+
+        </div>
+
+    `;
+
+
+    const delay =
+        Math.floor(
+            Math.random() * 3000
+        ) + 2000;
+
+
+    timeout = setTimeout(
+        showReady,
+        delay
+    );
+
+}
+
+
+function showReady() {
+
+    state = "ready";
+
+    startTime =
+        performance.now();
+
+    area.className =
+        "game-area ready";
+
+    area.innerHTML = `
+
+        <div>
+
+            <h2>
+                🟢 CLICK NOW!
+            </h2>
+
+        </div>
+
+    `;
+
+}
+
+
+function falseStart() {
+
+    clearTimeout(timeout);
+
+    state = "start";
+
+    area.className =
+        "game-area";
+
+    area.innerHTML = `
+
+        <div>
+
+            <h2>
+                ❌ Too Early!
+            </h2>
+
+            <p>
+                Click to try again.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+function finishReaction() {
+
+    const reaction =
+        Math.round(
+            performance.now() -
+            startTime
+        );
+
+
+    attempts++;
+
+    state = "start";
+
+
+    if (
+        best === null ||
+        reaction < best
+    ) {
+
+        best = reaction;
+
+    }
+
+
+    document
+    .getElementById("last")
+    .innerText =
+        reaction + " ms";
+
+
+    document
+    .getElementById("best")
+    .innerText =
+        best + " ms";
+
+
+    document
+    .getElementById("attempts")
+    .innerText =
+        attempts;
+
+
+    area.className =
+        "game-area";
+
+
+    area.innerHTML = `
+
+        <div>
+
+            <h2>
+                ⚡ ${reaction} ms
+            </h2>
+
+            <p>
+                Click to try again.
+            </p>
+
+        </div>
+
+    `;
+
+
+    document
+    .getElementById("result")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("resultTime")
+    .innerText =
+        reaction + " ms";
+
+
+    let message;
+
+    if (reaction < 200) {
+
+        message =
+            "🔥 Amazing reflexes!";
+
+    }
+
+    else if (reaction < 300) {
+
+        message =
+            "👏 Excellent reaction!";
+
+    }
+
+    else if (reaction < 500) {
+
+        message =
+            "👍 Good reaction!";
+
+    }
+
+    else {
+
+        message =
+            "💪 Keep practicing!";
+
+    }
+
+
+    document
+    .getElementById("resultMessage")
+    .innerText =
+        message;
+
+
+    saveGameStats();
+
+}
+
+
+function resetGame() {
+
+    document
+    .getElementById("result")
+    .style.display =
+        "none";
+
+    state = "start";
+
+    area.className =
+        "game-area";
+
+    area.innerHTML = `
+
+        <div>
+
+            <h2>
+                ⚡ Click to Start
+            </h2>
+
+            <p>
+                Wait for the signal...
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+function saveGameStats() {
+
+    const stats =
+
+        JSON.parse(
+            localStorage.getItem(
+                "youthHubReactionStats"
+            )
+        ) || {
+
+            attempts: 0,
+            best: null
+
+        };
+
+
+    stats.attempts++;
+
+
+    if (
+        stats.best === null ||
+        best < stats.best
+    ) {
+
+        stats.best = best;
+
+    }
+
+
+    localStorage.setItem(
+        "youthHubReactionStats",
+        JSON.stringify(stats)
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>

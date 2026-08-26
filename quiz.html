@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Quiz</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+.back {
+
+    text-decoration: none;
+
+    color: #222;
+
+    background: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+}
+
+
+/* SUBJECT SELECT */
+
+.setup {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+    margin-bottom: 25px;
+
+}
+
+.setup h2 {
+    margin-bottom: 15px;
+}
+
+select,
+input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    margin-bottom: 12px;
+
+}
+
+button {
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 13px 18px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+
+/* QUIZ CARD */
+
+.quiz {
+
+    display: none;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+}
+
+.question-number {
+
+    color: #777;
+
+    margin-bottom: 15px;
+
+}
+
+.question {
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+
+    line-height: 1.5;
+
+}
+
+.options {
+
+    display: grid;
+
+    gap: 12px;
+
+}
+
+.option {
+
+    width: 100%;
+
+    text-align: left;
+
+    background: #f1f3f6;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    border: 2px solid transparent;
+
+}
+
+.option:hover {
+
+    border-color: #aaa;
+
+}
+
+.option.selected {
+
+    border-color: #222;
+
+}
+
+.next {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+}
+
+
+/* RESULT */
+
+.result {
+
+    display: none;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+    text-align: center;
+
+}
+
+.score {
+
+    font-size: 50px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+.result-message {
+
+    font-size: 18px;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* CREATE QUESTION */
+
+.create {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    margin-top: 25px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+}
+
+.create h2 {
+    margin-bottom: 15px;
+}
+
+.option-input {
+    margin-bottom: 8px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .question {
+
+        font-size: 20px;
+
+    }
+
+}
+.study-nav {
+
+    width: 100%;
+    background: white;
+    padding: 12px 4%;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.study-nav a {
+
+    text-decoration: none;
+    color: #333;
+    background: #f1f3f6;
+    padding: 9px 13px;
+    border-radius: 9px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.study-nav a:hover {
+    background: #e5e7eb;
+}
+body.dark {
+
+    background: #111827;
+
+    color: #f3f4f6;
+
+}
+
+body.dark .study-nav {
+
+    background: #1f2937;
+
+}
+
+body.dark .study-nav a {
+
+    background: #374151;
+
+    color: #f3f4f6;
+
+}
+
+body.dark .dark-btn {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .card,
+body.dark .subject-card,
+body.dark .note-card,
+body.dark .add-card,
+body.dark .create-card,
+body.dark .create,
+body.dark .setup,
+body.dark .quiz,
+body.dark .result,
+body.dark .timer-card,
+body.dark .study-card,
+body.dark .progress-card,
+body.dark .activity,
+body.dark .summary-card,
+body.dark .stat,
+body.dark .task,
+body.dark .todo,
+body.dark .settings {
+
+    background: #1f2937;
+
+    color: #f3f4f6;
+
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+
+    background: #374151;
+
+    color: white;
+
+    border-color: #4b5563;
+
+}
+
+body.dark .info,
+body.dark .label,
+body.dark .task-info,
+body.dark .note-subject,
+body.dark .time-label {
+
+    color: #cbd5e1;
+
+}
+
+body.dark .option {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .answer {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .filters button {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .activity-item {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>❓ Quiz Hub</h1>
+
+    <a
+        class="back"
+        href="study.html">
+
+        ← Study Hub
+
+    </a>
+
+</div>
+
+
+<!-- SETUP -->
+
+<div
+    class="setup"
+    id="setup">
+
+    <h2>
+        🎯 Start a Quiz
+    </h2>
+
+    <select id="subjectSelect">
+
+        <option value="">
+            Select Subject
+        </option>
+
+    </select>
+
+    <button
+        onclick="startQuiz()">
+
+        🚀 Start Quiz
+
+    </button>
+
+</div>
+
+
+<!-- QUIZ -->
+
+<div
+    class="quiz"
+    id="quiz">
+
+
+    <div
+        class="question-number"
+        id="questionNumber">
+
+    </div>
+
+
+    <div
+        class="question"
+        id="question">
+
+    </div>
+
+
+    <div
+        class="options"
+        id="options">
+
+    </div>
+
+
+    <button
+        class="next"
+        onclick="nextQuestion()">
+
+        Next →
+
+    </button>
+
+
+</div>
+
+
+<!-- RESULT -->
+
+<div
+    class="result"
+    id="result">
+
+
+    <h2>
+        🏆 Quiz Complete!
+    </h2>
+
+
+    <div
+        class="score"
+        id="score">
+
+    </div>
+
+
+    <div
+        class="result-message"
+        id="resultMessage">
+
+    </div>
+
+
+    <button
+        onclick="restartQuiz()">
+
+        🔄 Try Again
+
+    </button>
+
+
+</div>
+
+
+<!-- CREATE QUESTION -->
+
+<div class="create">
+
+
+    <h2>
+        ➕ Create Your Own Question
+    </h2>
+
+
+    <input
+        type="text"
+        id="newQuestion"
+        placeholder="Enter question">
+
+
+    <input
+        type="text"
+        id="option1"
+        class="option-input"
+        placeholder="Option 1">
+
+
+    <input
+        type="text"
+        id="option2"
+        class="option-input"
+        placeholder="Option 2">
+
+
+    <input
+        type="text"
+        id="option3"
+        class="option-input"
+        placeholder="Option 3">
+
+
+    <input
+        type="text"
+        id="option4"
+        class="option-input"
+        placeholder="Option 4">
+
+
+    <select id="correctAnswer">
+
+        <option value="">
+            Select Correct Answer
+        </option>
+
+        <option value="0">
+            Option 1
+        </option>
+
+        <option value="1">
+            Option 2
+        </option>
+
+        <option value="2">
+            Option 3
+        </option>
+
+        <option value="3">
+            Option 4
+        </option>
+
+    </select>
+
+
+    <button
+        onclick="saveQuestion()">
+
+        💾 Save Question
+
+    </button>
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   SUBJECTS
+========================= */
+
+let subjects =
+
+    JSON.parse(
+        localStorage.getItem(
+            "youthHubSubjects"
+        )
+    ) || [];
+
+
+let questions =
+
+    JSON.parse(
+        localStorage.getItem(
+            "youthHubQuestions"
+        )
+    ) || [];
+
+
+/* =========================
+   QUIZ VARIABLES
+========================= */
+
+let currentQuestions = [];
+
+let currentIndex = 0;
+
+let score = 0;
+
+let selectedAnswer = null;
+
+
+/* =========================
+   LOAD SUBJECTS
+========================= */
+
+function loadSubjects() {
+
+    const select =
+        document.getElementById(
+            "subjectSelect"
+        );
+
+
+    subjects.forEach(subject => {
+
+        select.innerHTML += `
+
+            <option value="${subject.id}">
+
+                ${subject.name}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   SAVE QUESTION
+========================= */
+
+function saveQuestion() {
+
+
+    const subjectId =
+
+        document
+        .getElementById(
+            "subjectSelect"
+        ).value;
+
+
+    const question =
+
+        document
+        .getElementById(
+            "newQuestion"
+        ).value
+        .trim();
+
+
+    const options = [
+
+        document
+        .getElementById("option1")
+        .value
+        .trim(),
+
+        document
+        .getElementById("option2")
+        .value
+        .trim(),
+
+        document
+        .getElementById("option3")
+        .value
+        .trim(),
+
+        document
+        .getElementById("option4")
+        .value
+        .trim()
+
+    ];
+
+
+    const correct =
+
+        document
+        .getElementById(
+            "correctAnswer"
+        ).value;
+
+
+    if (!subjectId) {
+
+        alert(
+            "Select a subject first."
+        );
+
+        return;
+
+    }
+
+
+    if (!question) {
+
+        alert(
+            "Enter a question."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        options.some(
+            option => option === ""
+        )
+    ) {
+
+        alert(
+            "Fill all four options."
+        );
+
+        return;
+
+    }
+
+
+    if (correct === "") {
+
+        alert(
+            "Select the correct answer."
+        );
+
+        return;
+
+    }
+
+
+    const subject =
+
+        subjects.find(
+            s => s.id == subjectId
+        );
+
+
+    const newQuestion = {
+
+        id: Date.now(),
+
+        subjectId: subjectId,
+
+        subjectName:
+            subject.name,
+
+        question: question,
+
+        options: options,
+
+        answer:
+            Number(correct)
+
+    };
+
+
+    questions.push(
+        newQuestion
+    );
+
+
+    localStorage.setItem(
+
+        "youthHubQuestions",
+
+        JSON.stringify(questions)
+
+    );
+
+
+    alert(
+        "✅ Question saved!"
+    );
+
+
+    document
+    .getElementById(
+        "newQuestion"
+    ).value = "";
+
+
+    document
+    .getElementById("option1")
+    .value = "";
+
+
+    document
+    .getElementById("option2")
+    .value = "";
+
+
+    document
+    .getElementById("option3")
+    .value = "";
+
+
+    document
+    .getElementById("option4")
+    .value = "";
+
+
+    document
+    .getElementById(
+        "correctAnswer"
+    ).value = "";
+
+}
+
+
+/* =========================
+   START QUIZ
+========================= */
+
+function startQuiz() {
+
+
+    const subjectId =
+
+        document
+        .getElementById(
+            "subjectSelect"
+        ).value;
+
+
+    if (!subjectId) {
+
+        alert(
+            "Please select a subject."
+        );
+
+        return;
+
+    }
+
+
+    currentQuestions =
+
+        questions.filter(
+            q =>
+                q.subjectId == subjectId
+        );
+
+
+    if (
+        currentQuestions.length === 0
+    ) {
+
+        alert(
+
+            "No questions available for this subject.\n\nCreate some questions first."
+
+        );
+
+        return;
+
+    }
+
+
+    /* Shuffle */
+
+    currentQuestions.sort(
+        () => Math.random() - 0.5
+    );
+
+
+    currentIndex = 0;
+
+    score = 0;
+
+    selectedAnswer = null;
+
+
+    document
+    .getElementById("setup")
+    .style.display = "none";
+
+
+    document
+    .getElementById("result")
+    .style.display = "none";
+
+
+    document
+    .getElementById("quiz")
+    .style.display = "block";
+
+
+    showQuestion();
+
+}
+
+
+/* =========================
+   SHOW QUESTION
+========================= */
+
+function showQuestion() {
+
+
+    const q =
+        currentQuestions[
+            currentIndex
+        ];
+
+
+    selectedAnswer = null;
+
+
+    document
+    .getElementById(
+        "questionNumber"
+    )
+    .innerText =
+
+        `Question ${currentIndex + 1}
+         of ${currentQuestions.length}`;
+
+
+    document
+    .getElementById(
+        "question"
+    )
+    .innerText = q.question;
+
+
+    const optionsContainer =
+
+        document
+        .getElementById(
+            "options"
+        );
+
+
+    optionsContainer.innerHTML = "";
+
+
+    q.options.forEach(
+        (option, index) => {
+
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+
+        button.className =
+            "option";
+
+
+        button.innerText =
+            option;
+
+
+        button.onclick = () => {
+
+            selectAnswer(
+                index,
+                button
+            );
+
+        };
+
+
+        optionsContainer
+        .appendChild(button);
+
+    });
+
+}
+
+
+/* =========================
+   SELECT ANSWER
+========================= */
+
+function selectAnswer(
+    index,
+    button
+) {
+
+
+    selectedAnswer = index;
+
+
+    document
+    .querySelectorAll(
+        ".option"
+    )
+    .forEach(
+        btn =>
+            btn.classList.remove(
+                "selected"
+            )
+    );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+}
+
+
+/* =========================
+   NEXT QUESTION
+========================= */
+
+function nextQuestion() {
+
+
+    if (
+        selectedAnswer === null
+    ) {
+
+        alert(
+            "Please select an answer."
+        );
+
+        return;
+
+    }
+
+
+    const correctAnswer =
+
+        currentQuestions[
+            currentIndex
+        ].answer;
+
+
+    if (
+        selectedAnswer ===
+        correctAnswer
+    ) {
+
+        score++;
+
+    }
+
+
+    currentIndex++;
+
+
+    if (
+        currentIndex >=
+        currentQuestions.length
+    ) {
+
+        showResult();
+
+    }
+
+    else {
+
+        showQuestion();
+
+    }
+
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+function showResult() {
+
+
+    document
+    .getElementById("quiz")
+    .style.display = "none";
+
+
+    document
+    .getElementById("result")
+    .style.display = "block";
+
+
+    const total =
+        currentQuestions.length;
+
+
+    const percentage =
+        (score / total) * 100;
+
+
+    document
+    .getElementById(
+        "score"
+    ).innerText =
+
+        `${score} / ${total}`;
+
+
+    let message;
+
+
+    if (percentage >= 80) {
+
+        message =
+            "🔥 Excellent! Great job!";
+
+    }
+
+    else if (percentage >= 60) {
+
+        message =
+            "👍 Good work! Keep improving!";
+
+    }
+
+    else {
+
+        message =
+            "📚 Keep practicing. You can do better!";
+
+    }
+
+
+    document
+    .getElementById(
+        "resultMessage"
+    ).innerText =
+
+        `${message}\nScore: ${percentage.toFixed(1)}%`;
+
+}
+
+
+/* =========================
+   RESTART
+========================= */
+
+function restartQuiz() {
+
+
+    document
+    .getElementById("result")
+    .style.display = "none";
+
+
+    document
+    .getElementById("setup")
+    .style.display = "block";
+
+
+    document
+    .getElementById("quiz")
+    .style.display = "none";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadSubjects();
+
+
+</script>
+
+<script src="study-nav.js"></script>
+
+<script>
+    createStudyNavigation();
+</script>
+
+
+</body>
+
+</html>

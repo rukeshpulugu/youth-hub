@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Unit Converter</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.back {
+    display: inline-block;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+select,
+input,
+button {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.result {
+    padding: 20px;
+    background: #f1f3f6;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" href="tools.html">
+← Tools
+</a>
+
+<div class="card">
+
+<h1>🔄 Unit Converter</h1>
+
+<select id="type" onchange="loadUnits()">
+
+<option value="length">Length</option>
+<option value="weight">Weight</option>
+<option value="temperature">Temperature</option>
+<option value="area">Area</option>
+<option value="volume">Volume</option>
+<option value="speed">Speed</option>
+
+</select>
+
+<input
+type="number"
+id="value"
+placeholder="Enter value">
+
+<select id="from"></select>
+
+<select id="to"></select>
+
+<button onclick="convert()">
+Convert
+</button>
+
+<div class="result" id="result">
+Result will appear here
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const units = {
+
+length: [
+    "Meter",
+    "Kilometer",
+    "Centimeter",
+    "Millimeter",
+    "Mile",
+    "Foot",
+    "Inch"
+],
+
+weight: [
+    "Kilogram",
+    "Gram",
+    "Milligram",
+    "Pound",
+    "Ounce"
+],
+
+temperature: [
+    "Celsius",
+    "Fahrenheit",
+    "Kelvin"
+],
+
+area: [
+    "Square Meter",
+    "Square Kilometer",
+    "Square Foot",
+    "Acre"
+],
+
+volume: [
+    "Liter",
+    "Milliliter",
+    "Cubic Meter",
+    "Gallon"
+],
+
+speed: [
+    "m/s",
+    "km/h",
+    "mph"
+]
+
+};
+
+
+function loadUnits() {
+
+let type =
+document.getElementById("type").value;
+
+let from =
+document.getElementById("from");
+
+let to =
+document.getElementById("to");
+
+from.innerHTML = "";
+to.innerHTML = "";
+
+units[type].forEach(unit => {
+
+from.innerHTML +=
+`<option>${unit}</option>`;
+
+to.innerHTML +=
+`<option>${unit}</option>`;
+
+});
+
+}
+
+
+function convert() {
+
+let type =
+document.getElementById("type").value;
+
+let value =
+Number(document.getElementById("value").value);
+
+let from =
+document.getElementById("from").value;
+
+let to =
+document.getElementById("to").value;
+
+if (isNaN(value)) {
+
+document.getElementById("result").innerHTML =
+"⚠️ Enter a value.";
+
+return;
+
+}
+
+let result;
+
+if (type === "length")
+result = length(value, from, to);
+
+else if (type === "weight")
+result = weight(value, from, to);
+
+else if (type === "temperature")
+result = temperature(value, from, to);
+
+else if (type === "area")
+result = area(value, from, to);
+
+else if (type === "volume")
+result = volume(value, from, to);
+
+else
+result = speed(value, from, to);
+
+document.getElementById("result").innerHTML =
+`${value} ${from} = <b>${result.toFixed(4)} ${to}</b>`;
+
+}
+
+
+function length(v, f, t) {
+
+const factors = {
+
+Meter: 1,
+Kilometer: 1000,
+Centimeter: 0.01,
+Millimeter: 0.001,
+Mile: 1609.344,
+Foot: 0.3048,
+Inch: 0.0254
+
+};
+
+return v * factors[f] / factors[t];
+
+}
+
+
+function weight(v, f, t) {
+
+const factors = {
+
+Kilogram: 1,
+Gram: 0.001,
+Milligram: 0.000001,
+Pound: 0.453592,
+Ounce: 0.0283495
+
+};
+
+return v * factors[f] / factors[t];
+
+}
+
+
+function temperature(v, f, t) {
+
+let celsius;
+
+if (f === "Celsius")
+celsius = v;
+
+else if (f === "Fahrenheit")
+celsius = (v - 32) * 5 / 9;
+
+else
+celsius = v - 273.15;
+
+
+if (t === "Celsius")
+return celsius;
+
+if (t === "Fahrenheit")
+return celsius * 9 / 5 + 32;
+
+return celsius + 273.15;
+
+}
+
+
+function area(v, f, t) {
+
+const factors = {
+
+"Square Meter": 1,
+"Square Kilometer": 1000000,
+"Square Foot": 0.092903,
+"Acre": 4046.856
+
+};
+
+return v * factors[f] / factors[t];
+
+}
+
+
+function volume(v, f, t) {
+
+const factors = {
+
+Liter: 1,
+Milliliter: 0.001,
+"Cubic Meter": 1000,
+Gallon: 3.78541
+
+};
+
+return v * factors[f] / factors[t];
+
+}
+
+
+function speed(v, f, t) {
+
+const factors = {
+
+"m/s": 1,
+"km/h": 0.277778,
+"mph": 0.44704
+
+};
+
+return v * factors[f] / factors[t];
+
+}
+
+
+loadUnits();
+
+</script>
+
+</body>
+
+</html>

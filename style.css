@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 40px 20px 25px;
+}
+.logout-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 30px;
+}
+
+#logoutBtn {
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    background: #ef4444;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#logoutBtn:hover {
+    background: #dc2626;
+}
+
+header h1 {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 18px;
+}
+
+main {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.search-box {
+    margin: 20px auto 30px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.categories button {
+    border: none;
+    border-radius: 18px;
+    padding: 25px 10px;
+    background: white;
+    cursor: pointer;
+    font-size: 35px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
+
+.categories button:hover {
+    transform: translateY(-4px);
+}
+
+.categories span {
+    display: block;
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+#message {
+    margin: 35px 0;
+    text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+}
+
+#message h2 {
+    margin-bottom: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+}
+
+@media (max-width: 700px) {
+
+    .categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+}

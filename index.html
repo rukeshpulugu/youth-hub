@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Youth Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <meta
+        name="theme-color"
+        content="#111111"
+    >
+
+    <meta
+        name="description"
+        content="Study, tools, games, and skills all in one place at Youth Hub."
+    >
+
+</head>
+
+
+<body>
+
+    <div class="logout-container">
+
+                <button
+                    id="logoutBtn"
+                    onclick="logoutUser()"
+                >
+                    🚪 Logout
+                </button>
+
+            </div>
+
+    <!-- User Welcome -->
+    <div
+        class="user-welcome"
+        id="userWelcome"
+    >
+        👋 Welcome to Youth Hub
+    </div>
+
+
+    <!-- Header -->
+    <header>
+
+        <h1>
+            🚀 YOUTH HUB
+        </h1>
+
+        <p>
+            Learn • Create • Connect • Grow
+        </p>
+
+    </header>
+
+
+    <main>
+
+        <!-- Search -->
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="🔍 Search anything..."
+            >
+
+        </div>
+
+
+        <!-- Categories -->
+        <section class="categories">
+
+            <button
+                onclick="openSection('study')"
+            >
+                🎓
+                <span>Study</span>
+            </button>
+
+
+            <button
+                onclick="openSection('tools')"
+            >
+                🛠️
+                <span>Tools</span>
+            </button>
+
+
+            <button
+                onclick="openSection('games')"
+            >
+                🎮
+                <span>Games</span>
+            </button>
+
+
+            <button
+                onclick="openSection('skills')"
+            >
+                💻
+                <span>Skills</span>
+            </button>
+
+           
+
+
+                        
+
+        </section>
+
+
+        <!-- Welcome Message -->
+        <section id="message">
+
+            <h2>
+                Welcome to Youth Hub 👋
+            </h2>
+
+            <p>
+                Everything students and young people need,
+                in one place.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 Youth Hub
+        </p>
+
+        <p>
+            Developed by Rukesh
+        </p>
+
+    </footer>
+
+
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+
+
+    <!-- Authentication -->
+    <script>
+
+        // Check whether user is logged in
+        const currentUser =
+            localStorage.getItem("youthHubUser");
+
+
+        // If user is not logged in,
+        // send them to signup page
+        if (!currentUser) {
+
+            window.location.href = "auth.html";
+
+        }
+
+
+        // Show logged-in user's name
+        const welcome =
+            document.getElementById("userWelcome");
+
+
+        if (currentUser && welcome) {
+
+            welcome.innerHTML =
+                `👋 Welcome, ${currentUser}!`;
+
+        }
+
+
+        // Logout
+        function logoutUser() {
+
+            localStorage.removeItem(
+                "youthHubUser"
+            );
+
+            window.location.href =
+                "auth.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Resume Builder</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.back {
+    text-decoration: none;
+    color: #222;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.builder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form,
+.resume {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+
+.form h2 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 15px;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.action {
+    border: none;
+    padding: 13px 18px;
+    border-radius: 9px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.resume h1 {
+    margin-bottom: 5px;
+}
+
+.resume h3 {
+    border-bottom: 2px solid #222;
+    padding-bottom: 5px;
+    margin-top: 22px;
+}
+
+.resume p {
+    line-height: 1.5;
+    white-space: pre-line;
+}
+
+.contact {
+    color: #666;
+}
+
+@media(max-width:800px) {
+
+    .builder {
+        grid-template-columns: 1fr;
+    }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+    <h1>📄 Resume Builder</h1>
+
+    <a class="back" href="skills.html">
+        ← Skills
+    </a>
+
+</div>
+
+
+<div class="builder">
+
+
+<!-- FORM -->
+
+<div class="form">
+
+    <h2>Build Your Resume</h2>
+
+
+    <label>
+        Full Name
+    </label>
+
+    <input
+        id="name"
+        placeholder="Your name">
+
+
+    <label>
+        Email
+    </label>
+
+    <input
+        id="email"
+        placeholder="you@example.com">
+
+
+    <label>
+        Phone
+    </label>
+
+    <input
+        id="phone"
+        placeholder="+91 XXXXX XXXXX">
+
+
+    <label>
+        Career Objective
+    </label>
+
+    <textarea
+        id="objective"
+        placeholder="Short professional objective">
+    </textarea>
+
+
+    <label>
+        Education
+    </label>
+
+    <textarea
+        id="education"
+        placeholder="Degree, college, year, CGPA">
+    </textarea>
+
+
+    <label>
+        Skills
+    </label>
+
+    <textarea
+        id="skills"
+        placeholder="Python, Java, SQL, Power BI">
+    </textarea>
+
+
+    <label>
+        Projects
+    </label>
+
+    <textarea
+        id="projects"
+        placeholder="Project name and description">
+    </textarea>
+
+
+    <label>
+        Experience / Internships
+    </label>
+
+    <textarea
+        id="experience"
+        placeholder="Internship or work experience">
+    </textarea>
+
+
+    <label>
+        Certifications
+    </label>
+
+    <textarea
+        id="certifications"
+        placeholder="Certification names">
+    </textarea>
+
+
+    <button
+        class="action"
+        onclick="updateResume()">
+
+        🔄 Update Resume
+
+    </button>
+
+
+    <button
+        class="action"
+        onclick="window.print()">
+
+        🖨️ Print / Save PDF
+
+    </button>
+
+</div>
+
+
+<!-- PREVIEW -->
+
+<div class="resume"
+     id="resumePreview">
+
+    <h1 id="rName">
+        Your Name
+    </h1>
+
+    <p
+        class="contact"
+        id="rContact">
+        email@example.com
+    </p>
+
+
+    <h3>
+        PROFILE
+    </h3>
+
+    <p id="rObjective">
+        Your career objective will appear here.
+    </p>
+
+
+    <h3>
+        EDUCATION
+    </h3>
+
+    <p id="rEducation">
+        Your education details.
+    </p>
+
+
+    <h3>
+        SKILLS
+    </h3>
+
+    <p id="rSkills">
+        Your skills.
+    </p>
+
+
+    <h3>
+        PROJECTS
+    </h3>
+
+    <p id="rProjects">
+        Your projects.
+    </p>
+
+
+    <h3>
+        EXPERIENCE
+    </h3>
+
+    <p id="rExperience">
+        Your experience.
+    </p>
+
+
+    <h3>
+        CERTIFICATIONS
+    </h3>
+
+    <p id="rCertifications">
+        Your certifications.
+    </p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const fields = [
+
+    "name",
+    "email",
+    "phone",
+    "objective",
+    "education",
+    "skills",
+    "projects",
+    "experience",
+    "certifications"
+
+];
+
+
+function updateResume() {
+
+    document.getElementById("rName")
+        .innerText =
+        value("name") || "Your Name";
+
+
+    document.getElementById("rContact")
+        .innerText =
+
+        [
+            value("email"),
+            value("phone")
+        ]
+        .filter(Boolean)
+        .join(" | ")
+        ||
+        "email@example.com";
+
+
+    document.getElementById("rObjective")
+        .innerText =
+        value("objective") ||
+        "Your career objective will appear here.";
+
+
+    document.getElementById("rEducation")
+        .innerText =
+        value("education") ||
+        "Your education details.";
+
+
+    document.getElementById("rSkills")
+        .innerText =
+        value("skills") ||
+        "Your skills.";
+
+
+    document.getElementById("rProjects")
+        .innerText =
+        value("projects") ||
+        "Your projects.";
+
+
+    document.getElementById("rExperience")
+        .innerText =
+        value("experience") ||
+        "Your experience.";
+
+
+    document.getElementById("rCertifications")
+        .innerText =
+        value("certifications") ||
+        "Your certifications.";
+
+
+    saveResume();
+
+}
+
+
+function value(id) {
+
+    return document
+        .getElementById(id)
+        .value
+        .trim();
+
+}
+
+
+function saveResume() {
+
+    const data = {};
+
+    fields.forEach(id => {
+
+        data[id] = value(id);
+
+    });
+
+
+    localStorage.setItem(
+        "youthHubResume",
+        JSON.stringify(data)
+    );
+
+}
+
+
+function loadResume() {
+
+    const data =
+
+        JSON.parse(
+            localStorage.getItem(
+                "youthHubResume"
+            )
+        );
+
+
+    if (!data) return;
+
+
+    fields.forEach(id => {
+
+        document
+        .getElementById(id)
+        .value =
+            data[id] || "";
+
+    });
+
+
+    updateResume();
+
+}
+
+
+loadResume();
+
+</script>
+
+</body>
+
+</html>

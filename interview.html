@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Interview Practice</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.back {
+    text-decoration: none;
+    color: #222;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+
+.category {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.category button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 9px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.question {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 25px 0;
+}
+
+.tip {
+    background: #f1f3f6;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 15px;
+    resize: vertical;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+button.action {
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.feedback {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f1f3f6;
+    border-radius: 10px;
+    line-height: 1.6;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+    <h1>🎤 Interview Practice</h1>
+
+    <a class="back" href="skills.html">
+        ← Skills
+    </a>
+
+</div>
+
+
+<div class="category">
+
+    <button onclick="setCategory('HR')">
+        👔 HR
+    </button>
+
+    <button onclick="setCategory('Technical')">
+        💻 Technical
+    </button>
+
+    <button onclick="setCategory('General')">
+        🎯 General
+    </button>
+
+</div>
+
+
+<div class="card">
+
+    <small id="categoryName">
+        HR Interview
+    </small>
+
+    <div
+        class="question"
+        id="question">
+    </div>
+
+    <div class="tip">
+
+        💡 <b>Tip:</b>
+
+        <span id="tip"></span>
+
+    </div>
+
+    <textarea
+        id="answer"
+        placeholder="Write your answer here...">
+    </textarea>
+
+    <button
+        class="action"
+        onclick="checkAnswer()">
+
+        ✅ Review My Answer
+
+    </button>
+
+    <button
+        class="action"
+        onclick="nextQuestion()">
+
+        Next Question →
+
+    </button>
+
+    <div
+        class="feedback"
+        id="feedback">
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const interviewData = {
+
+HR: [
+
+{
+    q: "Tell me about yourself.",
+    tip: "Keep it professional: education, skills, projects and career goal."
+},
+
+{
+    q: "What are your strengths?",
+    tip: "Mention 2–3 genuine strengths with a short example."
+},
+
+{
+    q: "What is your biggest weakness?",
+    tip: "Mention a real but manageable weakness and explain how you are improving."
+},
+
+{
+    q: "Why should we hire you?",
+    tip: "Connect your skills and projects to the role."
+},
+
+{
+    q: "Where do you see yourself in five years?",
+    tip: "Talk about learning, responsibility and career growth."
+}
+
+],
+
+Technical: [
+
+{
+    q: "Explain one project you have built.",
+    tip: "Use Problem → Technology → Your Work → Result."
+},
+
+{
+    q: "What is the difference between an array and a linked list?",
+    tip: "Compare memory, access and insertion."
+},
+
+{
+    q: "What is OOP?",
+    tip: "Explain the four major concepts with examples."
+},
+
+{
+    q: "What is a database?",
+    tip: "Explain how structured information is stored and accessed."
+},
+
+{
+    q: "What programming language are you strongest in?",
+    tip: "Mention your level and a project where you used it."
+}
+
+],
+
+General: [
+
+{
+    q: "Why do you want this internship?",
+    tip: "Connect the internship with your learning and career goals."
+},
+
+{
+    q: "Describe a challenge you faced.",
+    tip: "Explain the situation, action and result."
+},
+
+{
+    q: "How do you handle deadlines?",
+    tip: "Talk about prioritization and planning."
+},
+
+{
+    q: "How do you work in a team?",
+    tip: "Mention communication, responsibility and collaboration."
+},
+
+{
+    q: "Do you have any questions for us?",
+    tip: "Ask about learning opportunities, responsibilities or the team."
+}
+
+]
+
+};
+
+
+let category = "HR";
+let index = 0;
+
+
+function loadQuestion() {
+
+    const item =
+        interviewData[category][index];
+
+    document.getElementById("categoryName")
+        .innerText =
+        category + " Interview";
+
+    document.getElementById("question")
+        .innerText =
+        item.q;
+
+    document.getElementById("tip")
+        .innerText =
+        item.tip;
+
+    document.getElementById("answer")
+        .value = "";
+
+    document.getElementById("feedback")
+        .innerText = "";
+
+}
+
+
+function setCategory(newCategory) {
+
+    category = newCategory;
+
+    index = 0;
+
+    loadQuestion();
+
+}
+
+
+function nextQuestion() {
+
+    index++;
+
+    if (
+        index >=
+        interviewData[category].length
+    ) {
+
+        index = 0;
+
+    }
+
+    loadQuestion();
+
+}
+
+
+function checkAnswer() {
+
+    const answer =
+        document.getElementById("answer")
+        .value
+        .trim();
+
+    const feedback =
+        document.getElementById("feedback");
+
+
+    if (!answer) {
+
+        feedback.innerText =
+            "✍️ Write your answer first.";
+
+        return;
+
+    }
+
+
+    let tips = [];
+
+    const lower =
+        answer.toLowerCase();
+
+
+    if (answer.length < 50) {
+
+        tips.push(
+            "Try giving a more detailed answer."
+        );
+
+    } else {
+
+        tips.push(
+            "Good answer length."
+        );
+
+    }
+
+
+    if (
+        lower.includes("project") ||
+        lower.includes("experience") ||
+        lower.includes("learn")
+    ) {
+
+        tips.push(
+            "Good — you included useful career context."
+        );
+
+    } else {
+
+        tips.push(
+            "Consider adding a specific example."
+        );
+
+    }
+
+
+    feedback.innerHTML =
+
+        "<b>📝 Self Review</b><br><br>" +
+
+        tips.join("<br>") +
+
+        "<br><br>" +
+
+        "Remember: use clear examples and speak confidently.";
+
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
+
+</html>

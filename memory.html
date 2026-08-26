@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Memory Match</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f7fb;
+
+    color: #222;
+
+}
+
+.container {
+
+    width: 92%;
+
+    max-width: 700px;
+
+    margin: 30px auto;
+
+}
+
+
+/* HEADER */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+.header h1 {
+
+    font-size: 30px;
+
+}
+
+.back {
+
+    text-decoration: none;
+
+    color: #222;
+
+    background: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+}
+
+
+/* GAME INFO */
+
+.info {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+.info-card {
+
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.05);
+
+}
+
+.number {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+}
+
+.label {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+/* GAME BOARD */
+
+.board {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+}
+
+.card {
+
+    aspect-ratio: 1;
+
+    border: none;
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    perspective: 800px;
+
+    background: transparent;
+
+    padding: 0;
+
+}
+
+.card-inner {
+
+    width: 100%;
+
+    height: 100%;
+
+    position: relative;
+
+    transition:
+        transform 0.5s;
+
+    transform-style: preserve-3d;
+
+}
+
+.card.flipped .card-inner {
+
+    transform:
+        rotateY(180deg);
+
+}
+
+.card-front,
+.card-back {
+
+    position: absolute;
+
+    width: 100%;
+
+    height: 100%;
+
+    border-radius: 15px;
+
+    backface-visibility: hidden;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 35px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.08);
+
+}
+
+.card-front {
+
+    background: #222;
+
+    color: white;
+
+}
+
+.card-back {
+
+    background: white;
+
+    transform:
+        rotateY(180deg);
+
+}
+
+.card.matched .card-back {
+
+    opacity: 0.55;
+
+}
+
+
+/* BUTTON */
+
+.controls {
+
+    text-align: center;
+
+}
+
+button {
+
+    border: none;
+
+    padding: 13px 20px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+
+/* RESULT */
+
+.result {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,0.55);
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
+
+}
+
+.result-box {
+
+    background: white;
+
+    width: 100%;
+
+    max-width: 400px;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+}
+
+.result-box h2 {
+
+    font-size: 28px;
+
+    margin-bottom: 15px;
+
+}
+
+.final-score {
+
+    font-size: 40px;
+
+    font-weight: bold;
+
+    margin: 15px 0;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .board {
+
+        gap: 8px;
+
+    }
+
+    .card-front,
+    .card-back {
+
+        font-size: 28px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>🧠 Memory Match</h1>
+
+    <a
+        class="back"
+        href="games.html">
+
+        ← Games
+
+    </a>
+
+</div>
+
+
+
+<!-- INFO -->
+
+<div class="info">
+
+
+    <div class="info-card">
+
+        <div
+            class="number"
+            id="moves">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            Moves
+
+        </div>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <div
+            class="number"
+            id="pairs">
+
+            0/8
+
+        </div>
+
+        <div class="label">
+
+            Pairs
+
+        </div>
+
+    </div>
+
+
+    <div class="info-card">
+
+        <div
+            class="number"
+            id="time">
+
+            0s
+
+        </div>
+
+        <div class="label">
+
+            Time
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- BOARD -->
+
+<div
+    class="board"
+    id="board">
+
+</div>
+
+
+
+<!-- CONTROLS -->
+
+<div class="controls">
+
+    <button
+        onclick="startGame()">
+
+        🔄 New Game
+
+    </button>
+
+</div>
+
+
+</div>
+
+
+
+<!-- RESULT -->
+
+<div
+    class="result"
+    id="result">
+
+
+    <div class="result-box">
+
+
+        <h2>
+            🎉 You Won!
+        </h2>
+
+
+        <p>
+            Great memory!
+        </p>
+
+
+        <div
+            class="final-score"
+            id="finalScore">
+
+        </div>
+
+
+        <p
+            id="bestMessage">
+
+        </p>
+
+
+        <br>
+
+
+        <button
+            onclick="startGame()">
+
+            🔄 Play Again
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   CARD DATA
+========================= */
+
+
+const symbols = [
+
+    "🍎",
+    "🚀",
+    "🐶",
+    "⚽",
+    "🌟",
+    "🎵",
+    "🍕",
+    "🚗"
+
+];
+
+
+let cards = [];
+
+let firstCard = null;
+
+let secondCard = null;
+
+let lockBoard = false;
+
+let moves = 0;
+
+let matchedPairs = 0;
+
+let seconds = 0;
+
+let timer = null;
+
+let gameStarted = false;
+
+
+/* =========================
+   SHUFFLE
+========================= */
+
+
+function shuffle(array) {
+
+    return array.sort(
+        () => Math.random() - 0.5
+    );
+
+}
+
+
+/* =========================
+   START GAME
+========================= */
+
+
+function startGame() {
+
+
+    clearInterval(timer);
+
+
+    firstCard = null;
+
+    secondCard = null;
+
+    lockBoard = false;
+
+    moves = 0;
+
+    matchedPairs = 0;
+
+    seconds = 0;
+
+    gameStarted = false;
+
+
+    document
+    .getElementById("moves")
+    .innerText = "0";
+
+
+    document
+    .getElementById("pairs")
+    .innerText = "0/8";
+
+
+    document
+    .getElementById("time")
+    .innerText = "0s";
+
+
+    document
+    .getElementById("result")
+    .style.display = "none";
+
+
+    cards = shuffle(
+
+        [...symbols, ...symbols]
+
+    );
+
+
+    createBoard();
+
+}
+
+
+/* =========================
+   CREATE BOARD
+========================= */
+
+
+function createBoard() {
+
+
+    const board =
+        document.getElementById(
+            "board"
+        );
+
+
+    board.innerHTML = "";
+
+
+    cards.forEach(
+        (symbol, index) => {
+
+
+        const card =
+            document.createElement(
+                "button"
+            );
+
+
+        card.className =
+            "card";
+
+
+        card.dataset.symbol =
+            symbol;
+
+
+        card.innerHTML = `
+
+            <div class="card-inner">
+
+                <div class="card-front">
+
+                    ?
+
+                </div>
+
+                <div class="card-back">
+
+                    ${symbol}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        card.onclick = () => {
+
+            flipCard(card);
+
+        };
+
+
+        board.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+
+function startTimer() {
+
+
+    if (gameStarted) {
+
+        return;
+
+    }
+
+
+    gameStarted = true;
+
+
+    timer = setInterval(
+        () => {
+
+            seconds++;
+
+
+            document
+            .getElementById(
+                "time"
+            )
+            .innerText =
+                seconds + "s";
+
+
+        },
+        1000
+    );
+
+}
+
+
+/* =========================
+   FLIP CARD
+========================= */
+
+
+function flipCard(card) {
+
+
+    if (lockBoard) {
+
+        return;
+
+    }
+
+
+    if (
+        card === firstCard
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        card.classList.contains(
+            "matched"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    startTimer();
+
+
+    card.classList.add(
+        "flipped"
+    );
+
+
+    if (!firstCard) {
+
+        firstCard = card;
+
+        return;
+
+    }
+
+
+    secondCard = card;
+
+
+    moves++;
+
+
+    document
+    .getElementById("moves")
+    .innerText =
+        moves;
+
+
+    checkMatch();
+
+}
+
+
+/* =========================
+   CHECK MATCH
+========================= */
+
+
+function checkMatch() {
+
+
+    const isMatch =
+
+        firstCard.dataset.symbol ===
+        secondCard.dataset.symbol;
+
+
+    if (isMatch) {
+
+        matched();
+
+    }
+
+    else {
+
+        unflip();
+
+    }
+
+}
+
+
+/* =========================
+   MATCHED
+========================= */
+
+
+function matched() {
+
+
+    firstCard
+    .classList.add(
+        "matched"
+    );
+
+
+    secondCard
+    .classList.add(
+        "matched"
+    );
+
+
+    matchedPairs++;
+
+
+    document
+    .getElementById("pairs")
+    .innerText =
+
+        matchedPairs +
+        "/8";
+
+
+    resetTurn();
+
+
+    if (
+        matchedPairs === 8
+    ) {
+
+        finishGame();
+
+    }
+
+}
+
+
+/* =========================
+   NOT MATCHED
+========================= */
+
+
+function unflip() {
+
+
+    lockBoard = true;
+
+
+    setTimeout(
+        () => {
+
+
+        firstCard
+        .classList.remove(
+            "flipped"
+        );
+
+
+        secondCard
+        .classList.remove(
+            "flipped"
+        );
+
+
+        resetTurn();
+
+
+        },
+        800
+    );
+
+}
+
+
+/* =========================
+   RESET TURN
+========================= */
+
+
+function resetTurn() {
+
+
+    firstCard = null;
+
+    secondCard = null;
+
+    lockBoard = false;
+
+}
+
+
+/* =========================
+   FINISH
+========================= */
+
+
+function finishGame() {
+
+
+    clearInterval(timer);
+
+
+    /* Score calculation */
+
+    let score =
+
+        Math.max(
+            1000 -
+            (
+                moves * 20
+                +
+                seconds * 3
+            ),
+            100
+        );
+
+
+    score =
+        Math.round(score);
+
+
+    const stats =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameStats"
+            )
+
+        ) || {
+
+            played: 0,
+
+            score: 0,
+
+            best: 0
+
+        };
+
+
+    stats.played++;
+
+    saveGameHistory(
+    "🧠 Memory Match",
+    score
+    );
+
+    stats.score += score;
+
+
+    let newBest = false;
+
+
+    if (
+        score > stats.best
+    ) {
+
+        stats.best = score;
+
+        newBest = true;
+
+    }
+
+
+    localStorage.setItem(
+
+        "youthHubGameStats",
+
+        JSON.stringify(stats)
+
+    );
+
+
+    document
+    .getElementById(
+        "finalScore"
+    )
+    .innerText =
+
+        score + " Points";
+
+
+    document
+    .getElementById(
+        "bestMessage"
+    )
+    .innerText =
+
+        newBest
+        ?
+        "🏆 New Best Score!"
+        :
+        "Keep playing to beat your best!";
+
+
+    document
+    .getElementById(
+        "result"
+    )
+    .style.display =
+        "flex";
+
+}
+function saveGameHistory(
+    game,
+    score
+) {
+
+    const history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameHistory"
+            )
+
+        ) || [];
+
+
+    history.push({
+
+        game: game,
+
+        score: score,
+
+        date:
+            new Date()
+            .toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+
+        "youthHubGameHistory",
+
+        JSON.stringify(history)
+
+    );
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+
+startGame();
+
+
+</script>
+
+
+</body>
+
+</html>

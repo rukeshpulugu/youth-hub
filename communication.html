@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Communication Practice</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.back {
+    text-decoration: none;
+    color: #222;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.07);
+}
+
+.challenge {
+    font-size: 23px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 20px 0;
+}
+
+.timer {
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 170px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+button {
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.feedback {
+    margin-top: 20px;
+    background: #f1f3f6;
+    padding: 18px;
+    border-radius: 12px;
+    line-height: 1.7;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.number {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.label {
+    color: #777;
+    font-size: 13px;
+}
+
+@media(max-width:600px) {
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+    <h1>🎯 Communication Practice</h1>
+
+    <a
+        class="back"
+        href="skills.html">
+
+        ← Skills
+
+    </a>
+
+</div>
+
+
+<div class="stats">
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="completed">
+            0
+        </div>
+
+        <div class="label">
+            Completed
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="words">
+            0
+        </div>
+
+        <div class="label">
+            Words
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="score">
+            0
+        </div>
+
+        <div class="label">
+            Score
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        🎤 Speaking Challenge
+    </h2>
+
+    <div
+        class="challenge"
+        id="challenge">
+    </div>
+
+
+    <div
+        class="timer"
+        id="timer">
+        60
+    </div>
+
+
+    <textarea
+        id="response"
+        placeholder="Write what you would say...">
+    </textarea>
+
+
+    <button
+        onclick="startChallenge()">
+
+        ▶️ Start 60 Seconds
+
+    </button>
+
+
+    <button
+        onclick="evaluateResponse()">
+
+        ✅ Evaluate
+
+    </button>
+
+
+    <button
+        onclick="nextChallenge()">
+
+        ➡️ Next Challenge
+
+    </button>
+
+
+    <div
+        class="feedback"
+        id="feedback">
+
+        Start a challenge and prepare
+        your response.
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const challenges = [
+
+    "Introduce yourself to a new class in 30 seconds.",
+
+    "Explain why learning technology is important for students.",
+
+    "Talk about a project you are proud of.",
+
+    "Explain your favorite subject to someone who knows nothing about it.",
+
+    "Imagine you are the leader of a student team. Explain how you would motivate your team.",
+
+    "Give a short speech about your career goal.",
+
+    "Explain how you would handle a disagreement with a teammate.",
+
+    "Convince a friend to start learning a useful skill."
+
+];
+
+
+let current = 0;
+let seconds = 60;
+let timer = null;
+let running = false;
+
+
+function loadChallenge() {
+
+    document.getElementById("challenge")
+        .innerText =
+        challenges[current];
+
+    document.getElementById("response")
+        .value = "";
+
+    document.getElementById("feedback")
+        .innerText =
+        "Read the challenge and prepare your response.";
+
+    seconds = 60;
+
+    document.getElementById("timer")
+        .innerText = seconds;
+
+}
+
+
+function startChallenge() {
+
+    clearInterval(timer);
+
+    seconds = 60;
+    running = true;
+
+    document.getElementById("timer")
+        .innerText = seconds;
+
+
+    timer = setInterval(() => {
+
+        seconds--;
+
+        document.getElementById("timer")
+            .innerText = seconds;
+
+        if (seconds <= 0) {
+
+            clearInterval(timer);
+
+            running = false;
+
+            document.getElementById("feedback")
+                .innerText =
+                "⏰ Time is up! Evaluate your response.";
+
+        }
+
+    }, 1000);
+
+}
+
+
+function evaluateResponse() {
+
+    clearInterval(timer);
+
+    running = false;
+
+
+    const response =
+        document.getElementById("response")
+        .value
+        .trim();
+
+
+    if (!response) {
+
+        document.getElementById("feedback")
+            .innerText =
+            "✍️ Write your response first.";
+
+        return;
+
+    }
+
+
+    const wordCount =
+        response
+        .split(/\s+/)
+        .filter(Boolean)
+        .length;
+
+
+    const sentences =
+        response
+        .split(/[.!?]+/)
+        .filter(Boolean)
+        .length;
+
+
+    let score = 0;
+
+    if (wordCount >= 20) score += 40;
+    else if (wordCount >= 10) score += 25;
+    else score += 10;
+
+
+    if (sentences >= 3) score += 30;
+    else if (sentences >= 2) score += 20;
+    else score += 10;
+
+
+    if (/[.!?]$/.test(response)) {
+
+        score += 10;
+
+    }
+
+
+    if (
+        response.length >= 100
+    ) {
+
+        score += 20;
+
+    }
+
+
+    document.getElementById("words")
+        .innerText =
+        wordCount;
+
+
+    document.getElementById("score")
+        .innerText =
+        score;
+
+
+    document.getElementById("feedback")
+        .innerHTML = `
+
+        <b>📊 Communication Review</b>
+
+        <br><br>
+
+        ⭐ Score: ${score}/100
+
+        <br>
+
+        📝 Words: ${wordCount}
+
+        <br>
+
+        📌 Sentences: ${sentences}
+
+        <br><br>
+
+        ${
+            wordCount < 20
+            ? "💡 Try giving a more detailed answer."
+            : "✅ Good response length!"
+        }
+
+        <br>
+
+        ${
+            sentences < 2
+            ? "💡 Try organizing your answer into multiple sentences."
+            : "✅ Your answer has good structure."
+        }
+
+        <br><br>
+
+        🎯 Tip: Speak clearly, use examples,
+        and organize your thoughts before answering.
+
+    `;
+
+
+    let completed =
+        Number(
+            localStorage.getItem(
+                "youthHubCommunicationCompleted"
+            )
+        ) || 0;
+
+
+    completed++;
+
+
+    localStorage.setItem(
+        "youthHubCommunicationCompleted",
+        completed
+    );
+
+
+    document.getElementById("completed")
+        .innerText =
+        completed;
+
+}
+
+
+function nextChallenge() {
+
+    clearInterval(timer);
+
+    running = false;
+
+    current++;
+
+    if (
+        current >= challenges.length
+    ) {
+
+        current = 0;
+
+    }
+
+    loadChallenge();
+
+}
+
+
+loadChallenge();
+
+document.getElementById("completed")
+    .innerText =
+    localStorage.getItem(
+        "youthHubCommunicationCompleted"
+    ) || 0;
+
+</script>
+
+</body>
+
+</html>

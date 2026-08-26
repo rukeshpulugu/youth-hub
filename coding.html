@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Coding Practice</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f7fb;
+
+    color: #222;
+
+}
+
+.container {
+
+    width: 92%;
+
+    max-width: 1000px;
+
+    margin: 30px auto;
+
+}
+
+
+/* HEADER */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+.header h1 {
+
+    font-size: 30px;
+
+}
+
+.back {
+
+    text-decoration: none;
+
+    color: #222;
+
+    background: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+}
+
+
+/* LANGUAGES */
+
+.languages {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+.language {
+
+    border: none;
+
+    padding: 15px 8px;
+
+    border-radius: 10px;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,.05);
+
+}
+
+.language.active {
+
+    background: #222;
+
+    color: white;
+
+}
+
+
+/* STATS */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+.stat {
+
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+}
+
+.number {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+}
+
+.label {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+/* QUESTION */
+
+.card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.07);
+
+}
+
+.question {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    line-height: 1.5;
+
+    margin: 20px 0;
+
+}
+
+
+/* OPTIONS */
+
+.option {
+
+    width: 100%;
+
+    border: none;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+
+    background: #f1f3f6;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+}
+
+.option:hover {
+
+    background: #e5e7eb;
+
+}
+
+.option:disabled {
+
+    cursor: default;
+
+}
+
+
+/* CODE */
+
+.code-box {
+
+    background: #181818;
+
+    color: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin: 20px 0;
+
+    overflow-x: auto;
+
+}
+
+pre {
+
+    white-space: pre-wrap;
+
+    line-height: 1.6;
+
+    font-family: Consolas, monospace;
+
+}
+
+
+/* FEEDBACK */
+
+.feedback {
+
+    min-height: 25px;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+
+}
+
+
+/* BUTTON */
+
+.next {
+
+    width: 100%;
+
+    border: none;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
+    font-size: 16px;
+
+}
+
+
+/* RESULT */
+
+.result {
+
+    display: none;
+
+    text-align: center;
+
+    padding: 35px;
+
+}
+
+.final-score {
+
+    font-size: 50px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:800px) {
+
+    .languages {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+@media(max-width:600px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .languages {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>💻 Coding Practice</h1>
+
+    <a
+        class="back"
+        href="skills.html">
+
+        ← Skills
+
+    </a>
+
+</div>
+
+
+
+<!-- LANGUAGES -->
+
+<div class="languages">
+
+
+    <button
+        class="language active"
+        onclick="changeLanguage('JavaScript', this)">
+
+        🟨 JavaScript
+
+    </button>
+
+
+    <button
+        class="language"
+        onclick="changeLanguage('Python', this)">
+
+        🐍 Python
+
+    </button>
+
+
+    <button
+        class="language"
+        onclick="changeLanguage('Java', this)">
+
+        ☕ Java
+
+    </button>
+
+
+    <button
+        class="language"
+        onclick="changeLanguage('HTML', this)">
+
+        🌐 HTML
+
+    </button>
+
+
+    <button
+        class="language"
+        onclick="changeLanguage('CSS', this)">
+
+        🎨 CSS
+
+    </button>
+
+
+</div>
+
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="progress">
+
+            1/10
+
+        </div>
+
+        <div class="label">
+
+            Question
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="score">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            Score
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="streak">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            🔥 Streak
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="correct">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            Correct
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- CARD -->
+
+<div
+    class="card"
+    id="gameCard">
+
+
+    <div
+        id="difficulty">
+
+        🟢 Beginner
+
+    </div>
+
+
+    <div
+        class="question"
+        id="question">
+
+    </div>
+
+
+    <div
+        class="code-box"
+        id="codeBox"
+        style="display:none;">
+
+        <pre id="code"></pre>
+
+    </div>
+
+
+    <div
+        id="options">
+
+    </div>
+
+
+    <div
+        class="feedback"
+        id="feedback">
+
+    </div>
+
+
+    <button
+        class="next"
+        id="next"
+        onclick="nextQuestion()"
+        style="display:none;">
+
+        Next Question →
+
+    </button>
+
+
+</div>
+
+
+
+<!-- RESULT -->
+
+<div
+    class="card result"
+    id="result">
+
+
+    <h2>
+
+        🎉 Coding Challenge Complete!
+
+    </h2>
+
+
+    <div
+        class="final-score"
+        id="finalScore">
+
+        0
+
+    </div>
+
+
+    <p id="finalMessage">
+
+    </p>
+
+
+    <br>
+
+
+    <button
+        class="next"
+        onclick="restartGame()">
+
+        🔄 Practice Again
+
+    </button>
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =================================
+   QUESTION DATABASE
+================================= */
+
+
+const questionBank = {
+
+
+JavaScript: [
+
+{
+
+q:
+"What does typeof return for a string?",
+
+options: [
+"string",
+"text",
+"String",
+"character"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which keyword declares a constant?",
+
+options: [
+"var",
+"let",
+"const",
+"static"
+],
+
+answer: 2,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"What is the output?",
+
+code:
+"console.log(2 + 3 * 2);",
+
+options: [
+"10",
+"8",
+"12",
+"7"
+],
+
+answer: 1,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"Which method adds an element to the end of an array?",
+
+options: [
+"push()",
+"add()",
+"append()",
+"insert()"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which symbol is used for strict equality?",
+
+options: [
+"=",
+"==",
+"===",
+"!="
+],
+
+answer: 2,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"What does JSON.parse() do?",
+
+options: [
+"Converts JSON string to object",
+"Converts object to JSON",
+"Deletes JSON",
+"Creates HTML"
+],
+
+answer: 0,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"Which function converts a string to an integer?",
+
+options: [
+"Integer()",
+"parseInt()",
+"toInteger()",
+"numberInt()"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"What is the output?",
+
+code:
+"let x = 5;\nx++;\nconsole.log(x);",
+
+options: [
+"4",
+"5",
+"6",
+"7"
+],
+
+answer: 2,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which keyword is used to create a function?",
+
+options: [
+"function",
+"def",
+"fun",
+"method"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which value represents absence of a value?",
+
+options: [
+"empty",
+"null",
+"zero",
+"false"
+],
+
+answer: 1,
+
+difficulty: "🟡 Intermediate"
+
+}
+
+],
+
+
+Python: [
+
+{
+
+q:
+"Which symbol starts a comment?",
+
+options: [
+"//",
+"#",
+"<!--",
+"/*"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which function displays output?",
+
+options: [
+"echo()",
+"print()",
+"display()",
+"output()"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"What is the output?",
+
+code:
+"x = 5\nprint(x + 2)",
+
+options: [
+"5",
+"2",
+"7",
+"52"
+],
+
+answer: 2,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which data type stores multiple ordered values?",
+
+options: [
+"list",
+"int",
+"bool",
+"float"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which keyword defines a function?",
+
+options: [
+"function",
+"def",
+"func",
+"method"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"What does len() return?",
+
+options: [
+"Value",
+"Length",
+"Type",
+"Index"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which collection stores key-value pairs?",
+
+options: [
+"list",
+"tuple",
+"dictionary",
+"set"
+],
+
+answer: 2,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"What is 10 // 3?",
+
+options: [
+"3",
+"3.33",
+"1",
+"4"
+],
+
+answer: 0,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"Which keyword is used for a loop over items?",
+
+options: [
+"for",
+"loop",
+"repeat",
+"iterate"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which value represents Boolean true?",
+
+options: [
+"true",
+"True",
+"TRUE",
+"yes"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+}
+
+],
+
+
+Java: [
+
+{
+
+q:
+"Which keyword creates a class?",
+
+options: [
+"class",
+"Class",
+"struct",
+"object"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which method is the entry point of Java?",
+
+options: [
+"start()",
+"main()",
+"run()",
+"execute()"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which keyword creates an object?",
+
+options: [
+"create",
+"new",
+"object",
+"make"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which type stores whole numbers?",
+
+options: [
+"float",
+"double",
+"int",
+"char"
+],
+
+answer: 2,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which concept allows one class to acquire another class properties?",
+
+options: [
+"Polymorphism",
+"Inheritance",
+"Encapsulation",
+"Abstraction"
+],
+
+answer: 1,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"Which keyword prevents inheritance?",
+
+options: [
+"static",
+"private",
+"final",
+"stop"
+],
+
+answer: 2,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"Which collection stores unique values?",
+
+options: [
+"ArrayList",
+"HashSet",
+"Array",
+"String"
+],
+
+answer: 1,
+
+difficulty: "🟡 Intermediate"
+
+},
+
+{
+
+q:
+"Which keyword refers to current object?",
+
+options: [
+"self",
+"this",
+"current",
+"object"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which keyword is used to inherit a class?",
+
+options: [
+"implements",
+"extends",
+"inherits",
+"super"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which keyword is used to handle exceptions?",
+
+options: [
+"try",
+"check",
+"error",
+"catching"
+],
+
+answer: 0,
+
+difficulty: "🟡 Intermediate"
+
+}
+
+],
+
+
+HTML: [
+
+{
+
+q:
+"What does HTML stand for?",
+
+options: [
+"Hyper Text Markup Language",
+"High Text Machine Language",
+"Hyperlink Text Mark Language",
+"Home Tool Markup Language"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag creates a heading?",
+
+options: [
+"<head>",
+"<h1>",
+"<heading>",
+"<title>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag creates a link?",
+
+options: [
+"<link>",
+"<a>",
+"<url>",
+"<href>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag creates an image?",
+
+options: [
+"<image>",
+"<img>",
+"<picture>",
+"<src>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag creates a paragraph?",
+
+options: [
+"<p>",
+"<para>",
+"<text>",
+"<paragraph>"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which attribute provides image path?",
+
+options: [
+"href",
+"src",
+"path",
+"url"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag creates an unordered list?",
+
+options: [
+"<ol>",
+"<ul>",
+"<list>",
+"<li>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag creates a table row?",
+
+options: [
+"<td>",
+"<tr>",
+"<table-row>",
+"<row>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which tag is used for a form?",
+
+options: [
+"<input>",
+"<form>",
+"<field>",
+"<data>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which declaration defines HTML5?",
+
+options: [
+"<html5>",
+"<!DOCTYPE html>",
+"<doctype>",
+"<html version='5'>"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+}
+
+],
+
+
+CSS: [
+
+{
+
+q:
+"What does CSS stand for?",
+
+options: [
+"Cascading Style Sheets",
+"Computer Style System",
+"Creative Style Syntax",
+"Colorful Style Sheets"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which property changes text color?",
+
+options: [
+"font-color",
+"text-color",
+"color",
+"foreground"
+],
+
+answer: 2,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which property changes background color?",
+
+options: [
+"background-color",
+"bg",
+"background-style",
+"color-background"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which property controls text size?",
+
+options: [
+"text-size",
+"font-size",
+"size",
+"font"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which value makes a flex container?",
+
+options: [
+"display: flex",
+"flex: true",
+"layout: flex",
+"position: flex"
+],
+
+answer: 0,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which property adds space inside an element?",
+
+options: [
+"margin",
+"padding",
+"spacing",
+"inside"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which property adds space outside an element?",
+
+options: [
+"padding",
+"margin",
+"outside",
+"gap-out"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which selector targets an ID?",
+
+options: [
+".name",
+"#name",
+"*name",
+"@name"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which selector targets a class?",
+
+options: [
+"#box",
+".box",
+"*box",
+"@box"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+},
+
+{
+
+q:
+"Which property rounds corners?",
+
+options: [
+"corner-radius",
+"border-radius",
+"radius",
+"round-border"
+],
+
+answer: 1,
+
+difficulty: "🟢 Beginner"
+
+}
+
+]
+
+};
+
+
+/* =================================
+   VARIABLES
+================================= */
+
+
+let language = "JavaScript";
+
+let questions = [];
+
+let current = 0;
+
+let score = 0;
+
+let streak = 0;
+
+let correct = 0;
+
+let answered = false;
+
+
+/* =================================
+   CHANGE LANGUAGE
+================================= */
+
+
+function changeLanguage(
+    selected,
+    button
+) {
+
+
+    language = selected;
+
+
+    document
+    .querySelectorAll(".language")
+    .forEach(
+        btn =>
+            btn.classList.remove(
+                "active"
+            )
+    );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    restartGame();
+
+}
+
+
+/* =================================
+   LOAD QUESTION
+================================= */
+
+
+function loadQuestion() {
+
+
+    questions =
+        questionBank[language];
+
+
+    if (
+        current >=
+        questions.length
+    ) {
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    answered = false;
+
+
+    const q =
+        questions[current];
+
+
+    document
+    .getElementById("progress")
+    .innerText =
+
+        (current + 1) +
+        "/" +
+        questions.length;
+
+
+    document
+    .getElementById("difficulty")
+    .innerText =
+        q.difficulty;
+
+
+    document
+    .getElementById("question")
+    .innerText =
+        q.q;
+
+
+    const codeBox =
+        document
+        .getElementById("codeBox");
+
+
+    if (q.code) {
+
+        codeBox.style.display =
+            "block";
+
+        document
+        .getElementById("code")
+        .innerText =
+            q.code;
+
+    }
+
+    else {
+
+        codeBox.style.display =
+            "none";
+
+    }
+
+
+    const options =
+        document
+        .getElementById("options");
+
+
+    options.innerHTML = "";
+
+
+    q.options.forEach(
+        (
+            option,
+            index
+        ) => {
+
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+
+        button.className =
+            "option";
+
+
+        button.innerText =
+            option;
+
+
+        button.onclick = () => {
+
+            answerQuestion(
+                index
+            );
+
+        };
+
+
+        options.appendChild(
+            button
+        );
+
+
+    });
+
+
+    document
+    .getElementById("feedback")
+    .innerText = "";
+
+
+    document
+    .getElementById("next")
+    .style.display =
+        "none";
+
+}
+
+
+/* =================================
+   ANSWER
+================================= */
+
+
+function answerQuestion(
+    selected
+) {
+
+
+    if (answered) {
+
+        return;
+
+    }
+
+
+    answered = true;
+
+
+    const q =
+        questions[current];
+
+
+    const buttons =
+        document
+        .querySelectorAll(
+            ".option"
+        );
+
+
+    buttons.forEach(
+        button => {
+
+            button.disabled =
+                true;
+
+        }
+    );
+
+
+    const feedback =
+        document
+        .getElementById(
+            "feedback"
+        );
+
+
+    if (
+        selected ===
+        q.answer
+    ) {
+
+
+        correct++;
+
+        streak++;
+
+
+        score +=
+            100 +
+            (
+                streak * 20
+            );
+
+
+        feedback.innerText =
+            "✅ Correct! 🔥";
+
+
+    }
+
+    else {
+
+
+        streak = 0;
+
+
+        feedback.innerText =
+
+            "❌ Correct answer: " +
+
+            q.options[
+                q.answer
+            ];
+
+    }
+
+
+    document
+    .getElementById("score")
+    .innerText =
+        score;
+
+
+    document
+    .getElementById("streak")
+    .innerText =
+        streak;
+
+
+    document
+    .getElementById("correct")
+    .innerText =
+        correct;
+
+
+    document
+    .getElementById("next")
+    .style.display =
+        "block";
+
+}
+
+
+/* =================================
+   NEXT
+================================= */
+
+
+function nextQuestion() {
+
+
+    current++;
+
+
+    loadQuestion();
+
+}
+
+
+/* =================================
+   FINISH
+================================= */
+
+
+function finishGame() {
+
+
+    document
+    .getElementById("gameCard")
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById("result")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("finalScore")
+    .innerText =
+
+        score +
+        " Points";
+
+
+    const percentage =
+
+        Math.round(
+
+            (
+                correct /
+                questions.length
+            ) * 100
+
+        );
+
+
+    document
+    .getElementById(
+        "finalMessage"
+    )
+    .innerText =
+
+        correct +
+        "/" +
+        questions.length +
+        " correct • " +
+        percentage +
+        "% accuracy";
+
+
+    saveCodingStats();
+
+}
+
+
+/* =================================
+   SAVE
+================================= */
+
+
+function saveCodingStats() {
+
+
+    const stats =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubCodingStats"
+            )
+
+        ) || {
+
+            played: 0,
+
+            totalScore: 0,
+
+            best: 0
+
+        };
+
+
+    stats.played++;
+
+    stats.totalScore +=
+        score;
+
+
+    if (
+        score >
+        stats.best
+    ) {
+
+        stats.best =
+            score;
+
+    }
+
+
+    localStorage.setItem(
+
+        "youthHubCodingStats",
+
+        JSON.stringify(stats)
+
+    );
+
+
+    saveGameHistory();
+
+}
+
+
+/* =================================
+   HISTORY
+================================= */
+
+
+function saveGameHistory() {
+
+
+    const history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameHistory"
+            )
+
+        ) || [];
+
+
+    history.push({
+
+        game:
+            "💻 " +
+            language +
+            " Coding",
+
+        score:
+            score,
+
+        date:
+            new Date()
+            .toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+
+        "youthHubGameHistory",
+
+        JSON.stringify(history)
+
+    );
+
+}
+
+
+/* =================================
+   RESTART
+================================= */
+
+
+function restartGame() {
+
+
+    current = 0;
+
+    score = 0;
+
+    streak = 0;
+
+    correct = 0;
+
+
+    document
+    .getElementById("gameCard")
+    .style.display =
+        "block";
+
+
+    document
+    .getElementById("result")
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById("score")
+    .innerText =
+        "0";
+
+
+    document
+    .getElementById("streak")
+    .innerText =
+        "0";
+
+
+    document
+    .getElementById("correct")
+    .innerText =
+        "0";
+
+
+    loadQuestion();
+
+}
+
+
+/* =================================
+   START
+================================= */
+
+
+loadQuestion();
+
+
+</script>
+
+</body>
+
+</html>

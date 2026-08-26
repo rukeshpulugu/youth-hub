@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Math Challenge</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f7fb;
+
+    color: #222;
+
+}
+
+.container {
+
+    width: 92%;
+
+    max-width: 700px;
+
+    margin: 30px auto;
+
+}
+
+
+/* HEADER */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+.header h1 {
+
+    font-size: 30px;
+
+}
+
+.back {
+
+    text-decoration: none;
+
+    color: #222;
+
+    background: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+}
+
+
+/* SETUP */
+
+.setup {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+    text-align: center;
+
+}
+
+.setup h2 {
+
+    margin-bottom: 20px;
+
+}
+
+.levels {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+}
+
+.level {
+
+    padding: 20px;
+
+    background: #f1f3f6;
+
+    border: none;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+}
+
+
+/* GAME */
+
+.game {
+
+    display: none;
+
+}
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+.stat {
+
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+}
+
+.number {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+}
+
+.label {
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+/* QUESTION */
+
+.question-card {
+
+    background: white;
+
+    padding: 35px 25px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+    text-align: center;
+
+}
+
+.question-number {
+
+    color: #777;
+
+    margin-bottom: 15px;
+
+}
+
+.question {
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    margin: 20px 0 25px;
+
+}
+
+.answer {
+
+    width: 100%;
+
+    padding: 15px;
+
+    font-size: 20px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    text-align: center;
+
+}
+
+.submit {
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+}
+
+
+/* RESULT */
+
+.result {
+
+    display: none;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+}
+
+.result h2 {
+
+    margin-bottom: 15px;
+
+}
+
+.final-score {
+
+    font-size: 50px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .levels {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .question {
+
+        font-size: 34px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>🔢 Math Challenge</h1>
+
+    <a
+        class="back"
+        href="games.html">
+
+        ← Games
+
+    </a>
+
+</div>
+
+
+
+<!-- SETUP -->
+
+<div
+    class="setup"
+    id="setup">
+
+
+    <h2>
+
+        🎯 Choose Difficulty
+
+    </h2>
+
+
+    <div class="levels">
+
+
+        <button
+            class="level"
+            onclick="startGame('easy')">
+
+            🟢 Easy
+
+            <br><br>
+
+            Addition & Subtraction
+
+        </button>
+
+
+        <button
+            class="level"
+            onclick="startGame('medium')">
+
+            🟡 Medium
+
+            <br><br>
+
+            Multiplication & Division
+
+        </button>
+
+
+        <button
+            class="level"
+            onclick="startGame('hard')">
+
+            🔴 Hard
+
+            <br><br>
+
+            Mixed Challenge
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- GAME -->
+
+<div
+    class="game"
+    id="game">
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div
+                class="number"
+                id="questionCount">
+
+                1/10
+
+            </div>
+
+            <div class="label">
+
+                Question
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="number"
+                id="score">
+
+                0
+
+            </div>
+
+            <div class="label">
+
+                Score
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="number"
+                id="streak">
+
+                0
+
+            </div>
+
+            <div class="label">
+
+                🔥 Streak
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="number"
+                id="timer">
+
+                15
+
+            </div>
+
+            <div class="label">
+
+                Seconds
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- QUESTION -->
+
+    <div class="question-card">
+
+
+        <div
+            class="question-number"
+            id="questionNumber">
+
+        </div>
+
+
+        <div
+            class="question"
+            id="question">
+
+        </div>
+
+
+        <input
+            type="number"
+            class="answer"
+            id="answer"
+            placeholder="Your answer"
+            autocomplete="off">
+
+
+        <button
+            class="submit"
+            onclick="submitAnswer()">
+
+            Submit Answer →
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- RESULT -->
+
+<div
+    class="result"
+    id="result">
+
+
+    <h2>
+        🎉 Challenge Complete!
+    </h2>
+
+
+    <div
+        class="final-score"
+        id="finalScore">
+
+    </div>
+
+
+    <p id="resultMessage">
+
+    </p>
+
+
+    <br>
+
+
+    <button
+        class="submit"
+        onclick="backToLevels()">
+
+        🔄 Play Again
+
+    </button>
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+
+let difficulty = "";
+
+let currentQuestion = 0;
+
+let totalQuestions = 10;
+
+let score = 0;
+
+let streak = 0;
+
+let correctAnswer = 0;
+
+let questionTimer = null;
+
+let timeLeft = 15;
+
+
+/* =========================
+   START GAME
+========================= */
+
+
+function startGame(level) {
+
+
+    difficulty = level;
+
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    streak = 0;
+
+
+    document
+    .getElementById("setup")
+    .style.display = "none";
+
+
+    document
+    .getElementById("result")
+    .style.display = "none";
+
+
+    document
+    .getElementById("game")
+    .style.display = "block";
+
+
+    document
+    .getElementById("score")
+    .innerText = "0";
+
+
+    document
+    .getElementById("streak")
+    .innerText = "0";
+
+
+    nextQuestion();
+
+}
+
+
+/* =========================
+   RANDOM NUMBER
+========================= */
+
+
+function randomNumber(min, max) {
+
+    return Math.floor(
+        Math.random() *
+        (max - min + 1)
+    ) + min;
+
+}
+
+
+/* =========================
+   CREATE QUESTION
+========================= */
+
+
+function generateQuestion() {
+
+
+    let a;
+
+    let b;
+
+    let operation;
+
+
+    if (difficulty === "easy") {
+
+
+        a = randomNumber(1, 50);
+
+        b = randomNumber(1, 50);
+
+
+        operation =
+            Math.random() < 0.5
+            ? "+"
+            : "-";
+
+
+        if (
+            operation === "-" &&
+            b > a
+        ) {
+
+            [a, b] = [b, a];
+
+        }
+
+
+    }
+
+    else if (
+        difficulty === "medium"
+    ) {
+
+
+        a = randomNumber(2, 12);
+
+        b = randomNumber(2, 12);
+
+
+        operation =
+            Math.random() < 0.5
+            ? "×"
+            : "÷";
+
+
+        if (
+            operation === "÷"
+        ) {
+
+            const result =
+                randomNumber(2, 12);
+
+            b = randomNumber(2, 12);
+
+            a =
+                result * b;
+
+        }
+
+
+    }
+
+    else {
+
+
+        const operations = [
+
+            "+",
+            "-",
+            "×",
+            "÷"
+
+        ];
+
+
+        operation =
+
+            operations[
+                randomNumber(
+                    0,
+                    operations.length - 1
+                )
+            ];
+
+
+        if (
+            operation === "×"
+        ) {
+
+            a =
+                randomNumber(2, 20);
+
+            b =
+                randomNumber(2, 15);
+
+        }
+
+        else if (
+            operation === "÷"
+        ) {
+
+            b =
+                randomNumber(2, 15);
+
+            const result =
+                randomNumber(2, 20);
+
+            a =
+                b * result;
+
+        }
+
+        else {
+
+            a =
+                randomNumber(10, 100);
+
+            b =
+                randomNumber(10, 100);
+
+            if (
+                operation === "-" &&
+                b > a
+            ) {
+
+                [a, b] = [b, a];
+
+            }
+
+        }
+
+    }
+
+
+    if (operation === "+") {
+
+        correctAnswer =
+            a + b;
+
+    }
+
+    else if (
+        operation === "-"
+    ) {
+
+        correctAnswer =
+            a - b;
+
+    }
+
+    else if (
+        operation === "×"
+    ) {
+
+        correctAnswer =
+            a * b;
+
+    }
+
+    else {
+
+        correctAnswer =
+            a / b;
+
+    }
+
+
+    return `${a} ${operation} ${b} = ?`;
+
+}
+
+
+/* =========================
+   NEXT QUESTION
+========================= */
+
+
+function nextQuestion() {
+
+
+    if (
+        currentQuestion >=
+        totalQuestions
+    ) {
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    currentQuestion++;
+
+
+    document
+    .getElementById(
+        "questionNumber"
+    )
+    .innerText =
+
+        `Question ${currentQuestion}
+         of ${totalQuestions}`;
+
+
+    document
+    .getElementById(
+        "question"
+    )
+    .innerText =
+        generateQuestion();
+
+
+    document
+    .getElementById(
+        "questionCount"
+    )
+    .innerText =
+
+        currentQuestion +
+        "/10";
+
+
+    document
+    .getElementById(
+        "answer"
+    ).value = "";
+
+
+    document
+    .getElementById(
+        "answer"
+    ).focus();
+
+
+    startQuestionTimer();
+
+}
+
+
+/* =========================
+   QUESTION TIMER
+========================= */
+
+
+function startQuestionTimer() {
+
+
+    clearInterval(
+        questionTimer
+    );
+
+
+    timeLeft = 15;
+
+
+    document
+    .getElementById(
+        "timer"
+    )
+    .innerText =
+        timeLeft;
+
+
+    questionTimer =
+
+        setInterval(
+            () => {
+
+
+                timeLeft--;
+
+
+                document
+                .getElementById(
+                    "timer"
+                )
+                .innerText =
+                    timeLeft;
+
+
+                if (
+                    timeLeft <= 0
+                ) {
+
+                    clearInterval(
+                        questionTimer
+                    );
+
+
+                    streak = 0;
+
+
+                    document
+                    .getElementById(
+                        "streak"
+                    )
+                    .innerText =
+                        streak;
+
+
+                    nextQuestion();
+
+                }
+
+
+            },
+            1000
+        );
+
+}
+
+
+/* =========================
+   SUBMIT
+========================= */
+
+
+function submitAnswer() {
+
+
+    clearInterval(
+        questionTimer
+    );
+
+
+    const input =
+
+        document
+        .getElementById(
+            "answer"
+        );
+
+
+    const answer =
+        Number(
+            input.value
+        );
+
+
+    if (
+        input.value === ""
+    ) {
+
+        alert(
+            "Enter your answer."
+        );
+
+        startQuestionTimer();
+
+        return;
+
+    }
+
+
+    if (
+        answer ===
+        correctAnswer
+    ) {
+
+
+        streak++;
+
+
+        const points =
+            100 +
+            (streak * 20);
+
+
+        score += points;
+
+
+    }
+
+    else {
+
+        streak = 0;
+
+    }
+
+
+    document
+    .getElementById(
+        "score"
+    )
+    .innerText =
+        score;
+
+
+    document
+    .getElementById(
+        "streak"
+    )
+    .innerText =
+        streak;
+
+
+    nextQuestion();
+
+}
+
+
+/* =========================
+   FINISH
+========================= */
+
+
+function finishGame() {
+
+
+    clearInterval(
+        questionTimer
+    );
+
+
+    document
+    .getElementById(
+        "game"
+    )
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById(
+        "result"
+    )
+    .style.display =
+        "block";
+
+
+    const stats =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameStats"
+            )
+
+        ) || {
+
+            played: 0,
+
+            score: 0,
+
+            best: 0
+
+        };
+
+
+    stats.played++;
+
+    saveGameHistory(
+    "🔢 Math Challenge",
+    score
+    );
+
+
+    stats.score +=
+        score;
+
+
+    let newBest = false;
+
+
+    if (
+        score >
+        stats.best
+    ) {
+
+        stats.best =
+            score;
+
+        newBest = true;
+
+    }
+
+
+    localStorage.setItem(
+
+        "youthHubGameStats",
+
+        JSON.stringify(stats)
+
+    );
+
+
+    document
+    .getElementById(
+        "finalScore"
+    )
+    .innerText =
+
+        score +
+        " Points";
+
+
+    document
+    .getElementById(
+        "resultMessage"
+    )
+    .innerText =
+
+        newBest
+
+        ?
+
+        "🏆 New Best Score!"
+
+        :
+
+        "🔥 Great effort! Try again to beat your score.";
+
+}
+function saveGameHistory(
+    game,
+    score
+) {
+
+    const history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameHistory"
+            )
+
+        ) || [];
+
+
+    history.push({
+
+        game: game,
+
+        score: score,
+
+        date:
+            new Date()
+            .toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+
+        "youthHubGameHistory",
+
+        JSON.stringify(history)
+
+    );
+
+}
+
+
+
+/* =========================
+   PLAY AGAIN
+========================= */
+
+
+function backToLevels() {
+
+
+    document
+    .getElementById(
+        "result"
+    )
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById(
+        "setup"
+    )
+    .style.display =
+        "block";
+
+}
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+
+document
+.getElementById(
+    "answer"
+)
+.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            submitAnswer();
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Games</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f7fb;
+
+    color: #222;
+
+}
+
+.container {
+
+    width: 92%;
+
+    max-width: 1100px;
+
+    margin: 30px auto;
+
+}
+
+
+/* HEADER */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 30px;
+
+}
+
+.logo {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+}
+
+.home {
+
+    text-decoration: none;
+
+    color: #222;
+
+    background: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+}
+
+
+/* HERO */
+
+.hero {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+}
+
+.hero h1 {
+
+    font-size: 32px;
+
+    margin-bottom: 10px;
+
+}
+
+.hero p {
+
+    color: #666;
+
+    font-size: 16px;
+
+}
+
+
+/* GAMES */
+
+.games {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+.game {
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    min-height: 220px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+    transition: 0.2s;
+
+    cursor: pointer;
+
+    border: none;
+
+    text-align: left;
+
+}
+
+.game:hover {
+
+    transform:
+        translateY(-6px);
+
+}
+
+.icon {
+
+    font-size: 45px;
+
+    margin-bottom: 15px;
+
+}
+
+.game h2 {
+
+    margin-bottom: 8px;
+
+}
+
+.game p {
+
+    color: #666;
+
+    line-height: 1.5;
+
+}
+
+.badge {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 6px 10px;
+
+    border-radius: 8px;
+
+    background: #f1f3f6;
+
+    font-size: 12px;
+
+}
+
+
+/* STATS */
+
+.stats {
+
+    margin-top: 25px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+}
+
+.stat {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.05);
+
+}
+
+.number {
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+}
+
+.label {
+
+    color: #777;
+
+    margin-top: 5px;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .games {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .games {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .stats {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+.achievement-card,
+.history-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    margin-top: 25px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+}
+
+.achievement-card h2,
+.history-card h2 {
+
+    margin-bottom: 20px;
+
+}
+
+.achievements {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+}
+
+.achievement {
+
+    padding: 18px;
+
+    background: #f1f3f6;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+}
+
+.achievement.locked {
+
+    opacity: 0.4;
+
+}
+
+.achievement-icon {
+
+    font-size: 35px;
+
+    margin-bottom: 8px;
+
+}
+
+.achievement-title {
+
+    font-weight: bold;
+
+}
+
+.history-list {
+
+    display: grid;
+
+    gap: 10px;
+
+}
+
+.history-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #f1f3f6;
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+}
+
+.history-game {
+
+    font-weight: bold;
+
+}
+
+.history-score {
+
+    font-weight: bold;
+
+}
+
+@media(max-width:700px) {
+
+    .achievements {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+@media(max-width:500px) {
+
+    .achievements {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="logo">
+
+        🎮 Youth Hub Games
+
+    </div>
+
+
+    <a
+        class="home"
+        href="../index.html">
+
+        🏠 Home
+
+    </a>
+
+</div>
+
+
+
+<!-- HERO -->
+
+<div class="hero">
+
+    <h1>
+
+        Play. Think. Improve. 🧠
+
+    </h1>
+
+
+    <p>
+
+        Fun games designed for children,
+        students and young people.
+
+    </p>
+
+</div>
+
+
+
+<!-- GAMES -->
+
+<div class="games">
+
+
+    <!-- MEMORY -->
+
+    <button
+        class="game"
+        onclick="openGame('memory')">
+
+
+        <div class="icon">
+
+            🧠
+
+        </div>
+
+
+        <h2>
+
+            Memory Match
+
+        </h2>
+
+
+        <p>
+
+            Test your memory by
+            matching hidden cards.
+
+        </p>
+
+
+        <span class="badge">
+
+            🧠 Memory
+
+        </span>
+
+
+    </button>
+
+
+
+    <!-- MATH -->
+
+    <button
+        class="game"
+        onclick="openGame('math')">
+
+
+        <div class="icon">
+
+            🔢
+
+        </div>
+
+
+        <h2>
+
+            Math Challenge
+
+        </h2>
+
+
+        <p>
+
+            Solve calculations
+            against the clock.
+
+        </p>
+
+
+        <span class="badge">
+
+            🔢 Maths
+
+        </span>
+
+
+    </button>
+
+
+
+    <!-- REACTION -->
+
+    <button
+        class="game"
+        onclick="openGame('reaction')">
+
+
+        <div class="icon">
+
+            ⚡
+
+        </div>
+
+
+        <h2>
+
+            Reaction Test
+
+        </h2>
+
+
+        <p>
+
+            Test how quickly
+            you can react.
+
+        </p>
+
+
+        <span class="badge">
+
+            ⚡ Speed
+
+        </span>
+
+
+    </button>
+
+
+
+    <!-- WORD -->
+
+    <button
+        class="game"
+        onclick="openGame('word')">
+
+
+        <div class="icon">
+
+            🔤
+
+        </div>
+
+
+        <h2>
+
+            Word Scramble
+
+        </h2>
+
+
+        <p>
+
+            Unscramble letters
+            to find the word.
+
+        </p>
+
+
+        <span class="badge">
+
+            🔤 Words
+
+        </span>
+
+
+    </button>
+
+
+
+    <!-- QUIZ -->
+
+    <button
+        class="game"
+        onclick="openGame('quiz')">
+
+
+        <div class="icon">
+
+            🏆
+
+        </div>
+
+
+        <h2>
+
+            Quick Quiz
+
+        </h2>
+
+
+        <p>
+
+            Answer quick questions
+            and earn points.
+
+        </p>
+
+
+        <span class="badge">
+
+            🏆 Knowledge
+
+        </span>
+
+
+    </button>
+
+
+
+    <!-- COMING -->
+
+    <button
+        class="game"
+        onclick="comingSoon()">
+
+
+        <div class="icon">
+
+            🚀
+
+        </div>
+
+
+        <h2>
+
+            More Games
+
+        </h2>
+
+
+        <p>
+
+            More original games
+            coming soon.
+
+        </p>
+
+
+        <span class="badge">
+
+            🔥 Coming Soon
+
+        </span>
+
+
+    </button>
+
+
+</div>
+
+
+
+<!-- STATS -->
+
+<div class="stats">
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="played">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            🎮 Games Played
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="score">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            ⭐ Total Score
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="best">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            🏆 Best Score
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div
+            class="number"
+            id="achievements">
+
+            0
+
+        </div>
+
+        <div class="label">
+
+            🥇 Achievements
+
+        </div>
+
+    </div>
+
+</div>
+<div class="achievement-card">
+
+    <h2>
+        🏅 Achievements
+    </h2>
+
+    <div
+        class="achievements"
+        id="achievementList">
+
+    </div>
+
+</div>
+<div class="history-card">
+
+    <h2>
+        📜 Game History
+    </h2>
+
+    <div
+        id="historyList"
+        class="history-list">
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+function openGame(game) {
+
+
+    const pages = {
+
+        memory:
+            "memory.html",
+
+        math:
+            "math.html",
+
+        reaction:
+            "reaction.html",
+
+        word:
+            "word.html",
+
+        quiz:
+            "quiz.html"
+
+    };
+
+
+    if (pages[game]) {
+
+        window.location.href =
+            pages[game];
+
+    }
+
+}
+
+
+function comingSoon() {
+
+    alert(
+        "🚀 More games coming soon!"
+    );
+
+}
+
+
+/* LOAD GAME STATS */
+
+function loadStats() {
+
+    const stats =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameStats"
+            )
+
+        ) || {
+
+            played: 0,
+
+            score: 0,
+
+            best: 0
+
+        };
+
+
+    document
+    .getElementById("played")
+    .innerText =
+        stats.played;
+
+
+    document
+    .getElementById("score")
+    .innerText =
+        stats.score;
+
+
+    document
+    .getElementById("best")
+    .innerText =
+        stats.best;
+
+
+    loadAchievements(
+        stats
+    );
+
+    loadHistory();
+
+}
+
+loadStats();
+function loadAchievements(stats) {
+
+    const achievements = [
+
+        {
+            icon: "🎮",
+            title: "First Game",
+            unlocked:
+                stats.played >= 1
+        },
+
+        {
+            icon: "🔥",
+            title: "5 Games",
+            unlocked:
+                stats.played >= 5
+        },
+
+        {
+            icon: "🏆",
+            title: "10 Games",
+            unlocked:
+                stats.played >= 10
+        },
+
+        {
+            icon: "⭐",
+            title: "1,000 Points",
+            unlocked:
+                stats.score >= 1000
+        },
+
+        {
+            icon: "💎",
+            title: "5,000 Points",
+            unlocked:
+                stats.score >= 5000
+        },
+
+        {
+            icon: "👑",
+            title: "10,000 Points",
+            unlocked:
+                stats.score >= 10000
+        }
+
+    ];
+
+
+    const container =
+        document.getElementById(
+            "achievementList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    let unlockedCount = 0;
+
+
+    achievements.forEach(
+        achievement => {
+
+
+        if (
+            achievement.unlocked
+        ) {
+
+            unlockedCount++;
+
+        }
+
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+
+        div.className =
+
+            "achievement" +
+
+            (
+                achievement.unlocked
+                ? ""
+                : " locked"
+            );
+
+
+        div.innerHTML = `
+
+            <div class="achievement-icon">
+
+                ${achievement.icon}
+
+            </div>
+
+            <div class="achievement-title">
+
+                ${achievement.title}
+
+            </div>
+
+            <div>
+
+                ${
+                    achievement.unlocked
+                    ? "Unlocked ✓"
+                    : "Locked 🔒"
+                }
+
+            </div>
+
+        `;
+
+
+        container.appendChild(
+            div
+        );
+
+    });
+
+
+    document
+    .getElementById(
+        "achievements"
+    )
+    .innerText =
+        unlockedCount;
+
+}
+function loadHistory() {
+
+    const container =
+        document.getElementById(
+            "historyList"
+        );
+
+
+    const history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameHistory"
+            )
+
+        ) || [];
+
+
+    container.innerHTML = "";
+
+
+    if (
+        history.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div
+                style="
+                    text-align:center;
+                    color:#777;
+                    padding:20px;
+                ">
+
+                🎮 Play a game to see
+                your history here.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    history
+    .slice()
+    .reverse()
+    .slice(0, 10)
+    .forEach(game => {
+
+
+        const item =
+            document.createElement(
+                "div"
+            );
+
+
+        item.className =
+            "history-item";
+
+
+        item.innerHTML = `
+
+            <div>
+
+                <div class="history-game">
+
+                    ${game.game}
+
+                </div>
+
+                <small>
+
+                    ${game.date}
+
+                </small>
+
+            </div>
+
+
+            <div class="history-score">
+
+                +${game.score} ⭐
+
+            </div>
+
+        `;
+
+
+        container.appendChild(
+            item
+        );
+
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

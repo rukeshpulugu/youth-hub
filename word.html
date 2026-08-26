@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Word Scramble</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 650px;
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.back {
+    text-decoration: none;
+    color: #222;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.number {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.label {
+    color: #777;
+    font-size: 13px;
+}
+
+.game {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+}
+
+.scrambled {
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    margin: 25px 0;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 18px;
+    text-align: center;
+}
+
+button {
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+.submit {
+    width: 100%;
+}
+
+.message {
+    min-height: 25px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+@media(max-width:600px) {
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .scrambled {
+        font-size: 30px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+    <h1>🔤 Word Scramble</h1>
+
+    <a class="back" href="games.html">
+        ← Games
+    </a>
+
+</div>
+
+
+<div class="stats">
+
+    <div class="stat">
+
+        <div class="number" id="question">
+            1/10
+        </div>
+
+        <div class="label">
+            Words
+        </div>
+
+    </div>
+
+    <div class="stat">
+
+        <div class="number" id="score">
+            0
+        </div>
+
+        <div class="label">
+            Score
+        </div>
+
+    </div>
+
+    <div class="stat">
+
+        <div class="number" id="streak">
+            0
+        </div>
+
+        <div class="label">
+            🔥 Streak
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="game">
+
+    <p>
+        Unscramble this word:
+    </p>
+
+    <div
+        class="scrambled"
+        id="scrambled">
+    </div>
+
+    <input
+        id="answer"
+        placeholder="Type your answer"
+        autocomplete="off">
+
+    <button
+        class="submit"
+        onclick="checkAnswer()">
+
+        Submit →
+
+    </button>
+
+    <div
+        class="message"
+        id="message">
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const words = [
+
+    "computer",
+    "student",
+    "science",
+    "internet",
+    "education",
+    "javascript",
+    "keyboard",
+    "creative",
+    "learning",
+    "technology",
+    "future",
+    "programming",
+    "school",
+    "knowledge",
+    "success"
+
+];
+
+
+let currentWord = "";
+
+let questionNumber = 0;
+
+let score = 0;
+
+let streak = 0;
+
+let usedWords = [];
+
+
+function shuffleWord(word) {
+
+    let letters =
+        word.split("");
+
+    for (
+        let i = letters.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [
+            letters[i],
+            letters[j]
+        ] =
+        [
+            letters[j],
+            letters[i]
+        ];
+
+    }
+
+    return letters.join("");
+
+}
+
+
+function nextWord() {
+
+    if (questionNumber >= 10) {
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    let available =
+        words.filter(
+            word =>
+                !usedWords.includes(word)
+        );
+
+
+    currentWord =
+        available[
+            Math.floor(
+                Math.random() *
+                available.length
+            )
+        ];
+
+
+    usedWords.push(
+        currentWord
+    );
+
+
+    questionNumber++;
+
+
+    document
+    .getElementById("question")
+    .innerText =
+        questionNumber + "/10";
+
+
+    let scrambled =
+        shuffleWord(
+            currentWord
+        );
+
+
+    while (
+        scrambled === currentWord &&
+        currentWord.length > 1
+    ) {
+
+        scrambled =
+            shuffleWord(
+                currentWord
+            );
+
+    }
+
+
+    document
+    .getElementById("scrambled")
+    .innerText =
+        scrambled.toUpperCase();
+
+
+    document
+    .getElementById("answer")
+    .value = "";
+
+
+    document
+    .getElementById("message")
+    .innerText = "";
+
+
+    document
+    .getElementById("answer")
+    .focus();
+
+}
+
+
+function checkAnswer() {
+
+    const answer =
+
+        document
+        .getElementById("answer")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    if (!answer) {
+
+        return;
+
+    }
+
+
+    if (
+        answer === currentWord
+    ) {
+
+        streak++;
+
+
+        score +=
+            100 +
+            streak * 20;
+
+
+        document
+        .getElementById("message")
+        .innerText =
+            "✅ Correct!";
+
+
+    }
+
+    else {
+
+        streak = 0;
+
+
+        document
+        .getElementById("message")
+        .innerText =
+
+            "❌ Correct word: " +
+            currentWord;
+
+    }
+
+
+    document
+    .getElementById("score")
+    .innerText =
+        score;
+
+
+    document
+    .getElementById("streak")
+    .innerText =
+        streak;
+
+
+    setTimeout(
+        nextWord,
+        900
+    );
+
+}
+
+
+function finishGame() {
+
+    const stats =
+
+        JSON.parse(
+            localStorage.getItem(
+                "youthHubGameStats"
+            )
+        ) || {
+
+            played: 0,
+            score: 0,
+            best: 0
+
+        };
+
+
+    stats.played++;
+
+    saveGameHistory(
+    "🔤 Word Scramble",
+    score
+    );
+
+    stats.score += score;
+
+
+    if (
+        score > stats.best
+    ) {
+
+        stats.best = score;
+
+    }
+
+
+    localStorage.setItem(
+        "youthHubGameStats",
+        JSON.stringify(stats)
+    );
+
+
+    alert(
+        "🎉 Game Complete!\n\nScore: "
+        + score
+        + " points"
+    );
+
+
+    questionNumber = 0;
+
+    score = 0;
+
+    streak = 0;
+
+    usedWords = [];
+
+
+    document
+    .getElementById("score")
+    .innerText = "0";
+
+
+    document
+    .getElementById("streak")
+    .innerText = "0";
+
+
+    nextWord();
+
+}
+function saveGameHistory(
+    game,
+    score
+) {
+
+    const history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "youthHubGameHistory"
+            )
+
+        ) || [];
+
+
+    history.push({
+
+        game: game,
+
+        score: score,
+
+        date:
+            new Date()
+            .toLocaleString()
+
+    });
+
+
+    localStorage.setItem(
+
+        "youthHubGameHistory",
+
+        JSON.stringify(history)
+
+    );
+
+}
+
+
+document
+.getElementById("answer")
+.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            checkAnswer();
+
+        }
+
+    }
+);
+
+
+nextWord();
+
+</script>
+
+</body>
+
+</html>

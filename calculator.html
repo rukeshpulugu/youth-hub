@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Youth Hub - Calculator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .back {
+            display: inline-block;
+
+            margin-bottom: 15px;
+
+            padding: 10px 15px;
+
+            background: white;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            color: #222;
+        }
+
+        .calculator {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+        #display {
+            width: 100%;
+
+            height: 70px;
+
+            border: none;
+
+            background: #f1f3f6;
+
+            border-radius: 12px;
+
+            margin-bottom: 15px;
+
+            padding: 15px;
+
+            text-align: right;
+
+            font-size: 30px;
+
+            outline: none;
+        }
+
+        .buttons {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+        }
+
+        button {
+
+            height: 60px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+            background: #f1f3f6;
+
+            transition: 0.15s;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+        }
+
+        .operator {
+            font-weight: bold;
+        }
+
+        .clear {
+            grid-column: span 2;
+        }
+
+        .equals {
+            grid-column: span 2;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <a class="back"
+           href="tools.html">
+
+            ← Tools
+
+        </a>
+
+
+        <div class="calculator">
+
+            <h1>🧮 Calculator</h1>
+
+
+            <input
+                type="text"
+                id="display"
+                value="0"
+                readonly
+            >
+
+
+            <div class="buttons">
+
+                <button
+                    class="clear"
+                    onclick="clearDisplay()">
+
+                    C
+
+                </button>
+
+
+                <button
+                    onclick="deleteLast()">
+
+                    ⌫
+
+                </button>
+
+
+                <button
+                    class="operator"
+                    onclick="addOperator('/')">
+
+                    ÷
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('7')">
+
+                    7
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('8')">
+
+                    8
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('9')">
+
+                    9
+
+                </button>
+
+
+                <button
+                    class="operator"
+                    onclick="addOperator('*')">
+
+                    ×
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('4')">
+
+                    4
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('5')">
+
+                    5
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('6')">
+
+                    6
+
+                </button>
+
+
+                <button
+                    class="operator"
+                    onclick="addOperator('-')">
+
+                    −
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('1')">
+
+                    1
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('2')">
+
+                    2
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('3')">
+
+                    3
+
+                </button>
+
+
+                <button
+                    class="operator"
+                    onclick="addOperator('+')">
+
+                    +
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('0')">
+
+                    0
+
+                </button>
+
+
+                <button
+                    onclick="addNumber('.')">
+
+                    .
+
+                </button>
+
+
+                <button
+                    class="equals"
+                    onclick="calculate()">
+
+                    =
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let display =
+            document.getElementById("display");
+
+
+        let expression = "";
+
+
+        function addNumber(number) {
+
+            expression += number;
+
+            display.value = expression;
+
+        }
+
+
+        function addOperator(operator) {
+
+            if (expression === "") {
+
+                return;
+
+            }
+
+
+            expression += operator;
+
+            display.value = expression;
+
+        }
+
+
+        function clearDisplay() {
+
+            expression = "";
+
+            display.value = "0";
+
+        }
+
+
+        function deleteLast() {
+
+            expression =
+                expression.slice(0, -1);
+
+
+            if (expression === "") {
+
+                display.value = "0";
+
+            } else {
+
+                display.value = expression;
+
+            }
+
+        }
+
+
+        function calculate() {
+
+            if (expression === "") {
+
+                return;
+
+            }
+
+
+            try {
+
+                let result =
+                    Function(
+                        '"use strict"; return (' +
+                        expression +
+                        ')'
+                    )();
+
+
+                display.value = result;
+
+                expression = String(result);
+
+            }
+
+            catch {
+
+                display.value = "Error";
+
+                expression = "";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

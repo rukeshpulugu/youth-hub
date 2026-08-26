@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Youth Hub - Age Calculator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .box {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f1f3f6;
+            border-radius: 12px;
+            line-height: 1.9;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <a class="back" href="tools.html">
+        ← Tools
+    </a>
+
+
+    <div class="card">
+
+        <h1>📅 Age Calculator</h1>
+
+
+        <div class="box">
+
+            <label>
+                Date of Birth
+            </label>
+
+            <input
+                type="date"
+                id="dob">
+
+        </div>
+
+
+        <button onclick="calculateAge()">
+
+            Calculate Age
+
+        </button>
+
+
+        <div
+            class="result"
+            id="result">
+
+            Select your date of birth.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function calculateAge() {
+
+    let dob =
+        new Date(
+            document.getElementById("dob").value
+        );
+
+
+    if (!document.getElementById("dob").value) {
+
+        document.getElementById("result").innerHTML =
+            "⚠️ Please select your date of birth.";
+
+        return;
+
+    }
+
+
+    let today = new Date();
+
+
+    if (dob > today) {
+
+        document.getElementById("result").innerHTML =
+            "⚠️ Date of birth cannot be in the future.";
+
+        return;
+
+    }
+
+
+    let years =
+        today.getFullYear() -
+        dob.getFullYear();
+
+
+    let months =
+        today.getMonth() -
+        dob.getMonth();
+
+
+    let days =
+        today.getDate() -
+        dob.getDate();
+
+
+    if (days < 0) {
+
+        months--;
+
+        let previousMonth =
+            new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                0
+            );
+
+        days +=
+            previousMonth.getDate();
+
+    }
+
+
+    if (months < 0) {
+
+        years--;
+
+        months += 12;
+
+    }
+
+
+    let nextBirthday =
+        new Date(
+            today.getFullYear(),
+            dob.getMonth(),
+            dob.getDate()
+        );
+
+
+    if (nextBirthday < today) {
+
+        nextBirthday.setFullYear(
+            today.getFullYear() + 1
+        );
+
+    }
+
+
+    let difference =
+        nextBirthday - today;
+
+
+    let daysUntilBirthday =
+        Math.ceil(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    document.getElementById("result").innerHTML =
+
+        `<b>Your Age:</b>
+
+        <br>
+
+        ${years} Years,
+        ${months} Months,
+        ${days} Days
+
+        <br><br>
+
+        🎂 <b>Next Birthday:</b>
+
+        <br>
+
+        ${daysUntilBirthday} days remaining`;
+
+}
+
+</script>
+
+</body>
+
+</html>

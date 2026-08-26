@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Notes</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #222;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+
+/* HEADER */
+
+.header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+.header h1 {
+    font-size: 30px;
+}
+
+.back {
+
+    text-decoration: none;
+
+    color: #222;
+
+    background: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+}
+
+
+/* CREATE NOTE */
+
+.create-card {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+    margin-bottom: 25px;
+
+}
+
+.create-card h2 {
+
+    margin-bottom: 20px;
+
+}
+
+input,
+select,
+textarea {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+
+    margin-bottom: 12px;
+
+}
+
+textarea {
+
+    min-height: 180px;
+
+    resize: vertical;
+
+}
+
+button {
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 13px 18px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+
+/* SEARCH */
+
+.search {
+
+    margin-bottom: 20px;
+
+}
+
+.search input {
+
+    background: white;
+
+}
+
+
+/* NOTES */
+
+.notes {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+
+}
+
+.note-card {
+
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+
+}
+
+.note-card h3 {
+
+    margin-bottom: 8px;
+
+}
+
+.note-subject {
+
+    color: #666;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+
+}
+
+.note-preview {
+
+    color: #555;
+
+    line-height: 1.5;
+
+    margin-bottom: 15px;
+
+    white-space: pre-wrap;
+
+}
+
+.actions {
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+.actions button {
+
+    flex: 1;
+
+}
+
+.empty {
+
+    text-align: center;
+
+    padding: 40px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    color: #777;
+
+    grid-column: 1 / -1;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .notes {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+    }
+
+    .notes {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+.study-nav {
+
+    width: 100%;
+    background: white;
+    padding: 12px 4%;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.study-nav a {
+
+    text-decoration: none;
+    color: #333;
+    background: #f1f3f6;
+    padding: 9px 13px;
+    border-radius: 9px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.study-nav a:hover {
+    background: #e5e7eb;
+}
+body.dark {
+
+    background: #111827;
+
+    color: #f3f4f6;
+
+}
+
+body.dark .study-nav {
+
+    background: #1f2937;
+
+}
+
+body.dark .study-nav a {
+
+    background: #374151;
+
+    color: #f3f4f6;
+
+}
+
+body.dark .dark-btn {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .card,
+body.dark .subject-card,
+body.dark .note-card,
+body.dark .add-card,
+body.dark .create-card,
+body.dark .create,
+body.dark .setup,
+body.dark .quiz,
+body.dark .result,
+body.dark .timer-card,
+body.dark .study-card,
+body.dark .progress-card,
+body.dark .activity,
+body.dark .summary-card,
+body.dark .stat,
+body.dark .task,
+body.dark .todo,
+body.dark .settings {
+
+    background: #1f2937;
+
+    color: #f3f4f6;
+
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+
+    background: #374151;
+
+    color: white;
+
+    border-color: #4b5563;
+
+}
+
+body.dark .info,
+body.dark .label,
+body.dark .task-info,
+body.dark .note-subject,
+body.dark .time-label {
+
+    color: #cbd5e1;
+
+}
+
+body.dark .option {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .answer {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .filters button {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+body.dark .activity-item {
+
+    background: #374151;
+
+    color: white;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>📝 My Notes</h1>
+
+    <a
+        class="back"
+        href="study.html">
+
+        ← Study Hub
+
+    </a>
+
+</div>
+
+
+<!-- CREATE NOTE -->
+
+<div class="create-card">
+
+    <h2>➕ Create New Note</h2>
+
+
+    <input
+        type="text"
+        id="noteTitle"
+        placeholder="Note title">
+
+
+    <select id="noteSubject">
+
+        <option value="">
+            Select Subject
+        </option>
+
+    </select>
+
+
+    <textarea
+        id="noteContent"
+        placeholder="Write your notes here..."></textarea>
+
+
+    <button onclick="saveNote()">
+
+        💾 Save Note
+
+    </button>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="search">
+
+    <input
+        type="text"
+        id="search"
+        placeholder="🔍 Search notes..."
+        onkeyup="displayNotes()">
+
+</div>
+
+
+<!-- NOTES -->
+
+<div
+    class="notes"
+    id="notes">
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   LOAD SUBJECTS
+========================= */
+
+let subjects =
+
+    JSON.parse(
+        localStorage.getItem(
+            "youthHubSubjects"
+        )
+    ) || [];
+
+
+/* =========================
+   LOAD NOTES
+========================= */
+
+let notes =
+
+    JSON.parse(
+        localStorage.getItem(
+            "youthHubNotes"
+        )
+    ) || [];
+
+
+/* =========================
+   LOAD SUBJECT DROPDOWN
+========================= */
+
+function loadSubjects() {
+
+
+    const select =
+        document.getElementById(
+            "noteSubject"
+        );
+
+
+    select.innerHTML = `
+
+        <option value="">
+
+            Select Subject
+
+        </option>
+
+    `;
+
+
+    subjects.forEach(subject => {
+
+
+        select.innerHTML += `
+
+            <option value="${subject.id}">
+
+                ${subject.name}
+
+            </option>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   SAVE NOTE
+========================= */
+
+function saveNote() {
+
+
+    const title =
+
+        document
+        .getElementById("noteTitle")
+        .value
+        .trim();
+
+
+    const subjectId =
+
+        document
+        .getElementById("noteSubject")
+        .value;
+
+
+    const content =
+
+        document
+        .getElementById("noteContent")
+        .value
+        .trim();
+
+
+    if (!title) {
+
+        alert(
+            "Please enter note title."
+        );
+
+        return;
+
+    }
+
+
+    if (!subjectId) {
+
+        alert(
+            "Please select a subject."
+        );
+
+        return;
+
+    }
+
+
+    if (!content) {
+
+        alert(
+            "Please write something."
+        );
+
+        return;
+
+    }
+
+
+    const subject =
+
+        subjects.find(
+            s => s.id == subjectId
+        );
+
+
+    const note = {
+
+        id: Date.now(),
+
+        title: title,
+
+        subjectId: subjectId,
+
+        subjectName:
+            subject
+            ?
+            subject.name
+            :
+            "Unknown",
+
+        content: content,
+
+        date:
+            new Date()
+            .toLocaleDateString()
+
+    };
+
+
+    notes.push(note);
+
+
+    saveNotes();
+
+
+    /* Clear form */
+
+    document
+    .getElementById("noteTitle")
+    .value = "";
+
+
+    document
+    .getElementById("noteSubject")
+    .value = "";
+
+
+    document
+    .getElementById("noteContent")
+    .value = "";
+
+
+    displayNotes();
+
+
+    alert(
+        "✅ Note saved successfully!"
+    );
+
+}
+
+
+/* =========================
+   SAVE TO LOCAL STORAGE
+========================= */
+
+function saveNotes() {
+
+    localStorage.setItem(
+
+        "youthHubNotes",
+
+        JSON.stringify(notes)
+
+    );
+
+}
+
+
+/* =========================
+   DISPLAY NOTES
+========================= */
+
+function displayNotes() {
+
+
+    const container =
+        document.getElementById(
+            "notes"
+        );
+
+
+    const search =
+
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const filtered =
+
+        notes.filter(note =>
+
+            note.title
+            .toLowerCase()
+            .includes(search)
+
+            ||
+
+            note.content
+            .toLowerCase()
+            .includes(search)
+
+            ||
+
+            note.subjectName
+            .toLowerCase()
+            .includes(search)
+
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (filtered.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <h2>
+                    📝 No Notes Found
+                </h2>
+
+                <p>
+                    Create your first note above.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    filtered.forEach(note => {
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        card.className =
+            "note-card";
+
+
+        card.innerHTML = `
+
+            <h3>
+
+                ${note.title}
+
+            </h3>
+
+
+            <div class="note-subject">
+
+                📚 ${note.subjectName}
+
+                <br>
+
+                📅 ${note.date}
+
+            </div>
+
+
+            <div class="note-preview">
+
+                ${note.content}
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    onclick="viewNote(${note.id})">
+
+                    👁️ View
+
+                </button>
+
+
+                <button
+                    onclick="deleteNote(${note.id})">
+
+                    🗑️ Delete
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================
+   VIEW NOTE
+========================= */
+
+function viewNote(id) {
+
+
+    const note =
+
+        notes.find(
+            n => n.id === id
+        );
+
+
+    if (!note) return;
+
+
+    alert(
+
+        "📝 " + note.title
+        +
+        "\n\n📚 "
+        + note.subjectName
+        +
+        "\n\n"
+        + note.content
+
+    );
+
+}
+
+
+/* =========================
+   DELETE NOTE
+========================= */
+
+function deleteNote(id) {
+
+
+    const confirmDelete =
+
+        confirm(
+            "Delete this note?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    notes =
+
+        notes.filter(
+            note =>
+                note.id !== id
+        );
+
+
+    saveNotes();
+
+
+    displayNotes();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadSubjects();
+
+displayNotes();
+
+
+</script>
+
+<script src="study-nav.js"></script>
+
+<script>
+    createStudyNavigation();
+</script>
+
+
+</body>
+
+</html>

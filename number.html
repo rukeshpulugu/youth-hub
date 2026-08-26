@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Number Generator</title>
+
+<style>
+
+body {
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.container {
+width:90%;
+max-width:500px;
+margin:60px auto;
+}
+
+.back {
+display:inline-block;
+padding:10px 15px;
+background:white;
+border-radius:10px;
+text-decoration:none;
+color:#222;
+margin-bottom:20px;
+}
+
+.card {
+background:white;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+h1 {
+margin-bottom:25px;
+}
+
+input {
+width:100%;
+padding:14px;
+margin-bottom:12px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;
+}
+
+button {
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+font-size:17px;
+cursor:pointer;
+margin-top:8px;
+}
+
+.result {
+margin-top:25px;
+font-size:35px;
+font-weight:bold;
+padding:20px;
+background:#f1f3f6;
+border-radius:12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" href="tools.html">
+← Tools
+</a>
+
+<div class="card">
+
+<h1>🔢 Number Generator</h1>
+
+<input
+type="number"
+id="min"
+placeholder="Minimum number">
+
+<input
+type="number"
+id="max"
+placeholder="Maximum number">
+
+<button onclick="generate()">
+Generate Number
+</button>
+
+<div class="result" id="result">
+?
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function generate(){
+
+let min =
+Number(document.getElementById("min").value);
+
+let max =
+Number(document.getElementById("max").value);
+
+if(min > max){
+
+document.getElementById("result").innerText =
+"⚠️ Invalid range";
+
+return;
+
+}
+
+let number =
+Math.floor(
+Math.random() *
+(max - min + 1)
+) + min;
+
+document.getElementById("result").innerText =
+number;
+
+}
+
+</script>
+
+</body>
+
+</html>

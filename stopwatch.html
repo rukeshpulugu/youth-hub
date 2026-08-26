@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Youth Hub - Stopwatch</title>
+
+<style>
+
+body {
+font-family:Arial,sans-serif;
+background:#f5f7fb;
+}
+
+.container {
+width:90%;
+max-width:500px;
+margin:60px auto;
+}
+
+.back {
+display:inline-block;
+padding:10px 15px;
+background:white;
+border-radius:10px;
+text-decoration:none;
+color:#222;
+margin-bottom:20px;
+}
+
+.card {
+background:white;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+h1 {
+margin-bottom:25px;
+}
+
+#display {
+font-size:45px;
+margin:25px 0;
+}
+
+button {
+padding:14px 20px;
+margin:5px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" href="tools.html">
+← Tools
+</a>
+
+<div class="card">
+
+<h1>⏱️ Stopwatch</h1>
+
+<div id="display">
+00:00:00
+</div>
+
+<button onclick="start()">
+▶ Start
+</button>
+
+<button onclick="pause()">
+⏸ Pause
+</button>
+
+<button onclick="reset()">
+🔄 Reset
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let startTime = 0;
+let elapsed = 0;
+let timer = null;
+
+function update() {
+
+let time = elapsed;
+
+if(timer)
+time += Date.now() - startTime;
+
+let totalSeconds =
+Math.floor(time / 1000);
+
+let hours =
+Math.floor(totalSeconds / 3600);
+
+let minutes =
+Math.floor((totalSeconds % 3600) / 60);
+
+let seconds =
+totalSeconds % 60;
+
+document.getElementById("display").innerText =
+
+String(hours).padStart(2,"0") + ":" +
+
+String(minutes).padStart(2,"0") + ":" +
+
+String(seconds).padStart(2,"0");
+
+}
+
+function start() {
+
+if(timer) return;
+
+startTime = Date.now();
+
+timer =
+setInterval(update,1000);
+
+}
+
+function pause() {
+
+if(!timer) return;
+
+elapsed += Date.now() - startTime;
+
+clearInterval(timer);
+
+timer = null;
+
+update();
+
+}
+
+function reset() {
+
+clearInterval(timer);
+
+timer = null;
+
+elapsed = 0;
+
+update();
+
+}
+
+</script>
+
+</body>
+
+</html>
